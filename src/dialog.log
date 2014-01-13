@@ -1,0 +1,64 @@
+2014-01-13-16.54.53.383297                   Level:ERROR
+PID:20131                                TID:20131
+Function:bind_listen                     Line:145
+File:oss/ossSocket.cpp
+Message:
+Failed to bind socket, rc = 98
+
+2014-01-13-16.54.53.384803                   Level:SEVERE
+PID:20131                                TID:20131
+Function:pmdTcpListenerEntryPoint        Line:30
+File:pmd/pmdListener.cpp
+Message:
+Failed to bind socket server, rc = -11
+
+2014-01-13-17.13.23.442512                   Level:ERROR
+PID:22253                                    TID:22253
+Function:bind_listen                         Line:145
+File:oss/ossSocket.cpp
+Message:Failed to bind socket, rc = 98
+
+2014-01-13-17.13.23.443077                   Level:SEVERE
+PID:22253                                    TID:22253
+Function:pmdTcpListenerEntryPoint            Line:30
+File:pmd/pmdListener.cpp
+Message:Failed to bind socket server, rc = -11
+
+2014-01-13-17.13.47.529651                   Level:ERROR
+PID:22216                                    TID:22216
+Function:accept                              Line:391
+File:oss/ossSocket.cpp
+Message:Failed to select from socket, rc = 4
+
+2014-01-13-17.13.47.530169                   Level:ERROR
+PID:22216                                    TID:22216
+Function:_ossSocket                          Line:75
+File:oss/ossSocket.cpp
+Message:Failed to get sock name, error = 88
+
+
+2014-01-13-17.13.47.530246                   Level:ERROR
+PID:22216                                    TID:22216
+Function:recv                                Line:247
+File:oss/ossSocket.cpp
+Message:Failed to select from socket, rc = -11
+
+2014-01-13-17.26.46.536554                   Level:ERROR
+PID:22272                                    TID:22272
+Function:accept                              Line:391
+File:oss/ossSocket.cpp
+Message:Failed to select from socket, rc = 4
+
+2014-01-13-17.26.46.536771                   Level:ERROR
+PID:22272                                    TID:22272
+Function:_ossSocket                          Line:75
+File:oss/ossSocket.cpp
+Message:Failed to get sock name, error = 88
+
+
+2014-01-13-17.26.46.536801                   Level:ERROR
+PID:22272                                    TID:22272
+Function:recv                                Line:247
+File:oss/ossSocket.cpp
+Message:Failed to select from socket, rc = -11
+
