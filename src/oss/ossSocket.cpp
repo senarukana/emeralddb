@@ -31,6 +31,21 @@ _ossSocket::_ossSocket(unsigned int port, int timeout) {
     _addressLen = sizeof(_sockAddress);
 }
 
+_ossSocket::_ossSocket(const char *svcName, int timeout) {
+    unsigned short port;
+     _init = false;
+    _fd = 0;
+    _timeout = timeout;
+    memset(&_sockAddress, 0, sizeof(sockaddr_in));
+    memset(&_peerAddress, 0, sizeof(sockaddr_in));
+    getPort(svcName, port);
+    _peerAddressLen = sizeof(_peerAddress);
+    _sockAddress.sin_family = AF_INET;
+    _sockAddress.sin_addr.s_addr = htonl(INADDR_ANY);
+    _sockAddress.sin_port = htons(port);
+    _addressLen = sizeof(_sockAddress);
+}
+
 // Create a socket
 _ossSocket::_ossSocket() {
     _init = false;

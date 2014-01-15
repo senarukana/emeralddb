@@ -14,11 +14,15 @@
    along with this program. If not, see <http://www.gnu.org/license/>.
 *******************************************************************************/
 #include "core.hpp"
-#include "pmdEDUCB.hpp"
+#include "pmd.hpp"
+#include "pd.hpp"
+#include "pmdEDU.hpp"
 #include "pmdEDUMgr.hpp"
+#include "ossUtil.hpp"
 
+using namespace std;
 
-int pmdEDUMgr::destroyAll() {
+int pmdEDUMgr::_destroyAll() {
     _setDestroyed(true);
     setQuiesced(true);
 
@@ -26,15 +30,82 @@ int pmdEDUMgr::destroyAll() {
     unsigned int timeCounter = 0;
     unsigned int eduCount = _getEDUCount(EDU_USER);
     while (eduCount != 0) {
-
+        if (timeCounter % 50 == 0) {
+            _forceEDUs(EDU_USER);
+        }
+        ++timeCounter;
+        ossSleepMillis(100);
+        eduCount = _getEDUCount(EDU_USER);
     }
+
+    // stop all system edus
+    timeCounter = 0;
+    eduCount = _getEDUCount(EDU_SYSTEM);
+    while (eduCount != 0) {
+        if (timeCounter % 50 == 0) {
+            _forceEDUs(EDU_SYSTEM);
+        }
+        ++timeCounter;
+        ossSleepMillis(100);
+        eduCount = _getEDUCount(EDU_SYSTEM);
+    }
+    return EDB_OK;
+}
+
+unsigned int pmdEDUMgr::_getEDUCount(int property) {
+    unsigned int eduCount = 0;
+    map<EDUID, pmdEDUCB*>::iterator it;
+    /**************** CRITICAL SECTION********************/
+    _mutex.get_shared();
+    for (it = _runQueue.begin(); it != _runQueue.end(); ++it) {
+        if (((EDU_SYSTEM & property) && _isSystemEDU( it->first))
+            || ((EDU_USER & property) && !_isSystemEDU( it->first))) {
+            eduCount++;
+        }
+    }
+
+    for (it = _idleQueue.begin(); it != _idleQueue.end(); it++) {
+        if (((EDU_SYSTEM & property) && _isSystemEDU( it->first))
+            || ((EDU_USER & property) && !_isSystemEDU( it->first))) {
+            eduCount++;
+        }
+    }
+    _mutex.release_shared();
+    /*************** END CRITICAL SECTION **********************/
+    return eduCount;
+}
+
+// block all new request and attemps to terminate existing requests
+int pmdEDUMgr::_forceEDUs(int property) {
+    map<EDUID, pmdEDUCB*>::iterator it;
+
+    /*********CRITICAL SECTION********************/
+    _mutex.get();
+    for (it = _runQueue.begin(); it != _runQueue.end(); ++it) {
+       if (((EDU_SYSTEM & property) && _isSystemEDU( it->first))
+            || ((EDU_USER & property) && !_isSystemEDU( it->first))) {
+            (*it).second->force() ;
+            PD_LOG (PDTRACE, "force edu[ID:%lld]", it->first ) ;
+        }
+    }
+
+    for (it = _idleQueue.begin(); it != _idleQueue.end(); it++) {
+         if (((EDU_SYSTEM & property) && _isSystemEDU( it->first))
+            || ((EDU_USER & property) && !_isSystemEDU( it->first))) {
+            (*it).second->force() ;
+            PD_LOG (PDTRACE, "force edu[ID:%lld]", it->first ) ;
+        }
+    }
+    _mutex.release();
+    /*************** END CRITICAL SECTION **********************/
+    return EDB_OK;
 }
 
 int pmdEDUMgr::startEDU(EDU_TYPES type, void *arg, EDUID *eduid) {
     int rc = EDB_OK;
     EDUID eduID = 0;
-    pmdEDUCB *eduCB;
-    std::map<EDUID, pmdEDUCB*>::iterator it = _idleQueue.begin();
+    pmdEDUCB *cb;
+    map<EDUID, pmdEDUCB*>::iterator it = _idleQueue.begin();
 
     if (isQuiesced()) {
         rc = EDB_QUIESCED;
@@ -57,16 +128,16 @@ int pmdEDUMgr::startEDU(EDU_TYPES type, void *arg, EDUID *eduid) {
 
     // get EDU from IdleQueue
     eduID = (*it).first;
-    eduCB = (*it).second;
+    cb = (*it).second;
     _idleQueue.erase(eduID);
-    eduCB->setType(type);
-    eduCB->setStatus(PMD_EDU_WAITING);
-    _runQueue[eduID] = eduCB;
+    cb->setType(type);
+    cb->setStatus(PMD_EDU_WAITTING);
+    _runQueue[eduID] = cb;
     *eduid = eduID;
     _mutex.release();
     /*************** END CRITICAL SECTION **********************/
     // the edu is start, need post a resume event
-    eduCB->postEvent(pmdEDUEvent(PMD_EDU_EVENT_RESUME, false, arg));
+    cb->postEvent(pmdEDUEvent(PMD_EDU_EVENT_RESUME, false, arg));
 
 done:
     return rc;
@@ -78,17 +149,16 @@ error:
 // move the edu from _idlequeue to runqueue and set the status
 int pmdEDUMgr::activateEDU(EDUID eduID) {
     int rc = EDB_OK;
-    EDUCB *cb;
-    EDU_TYPES type;
-    map<EDUID, *pmdEDUCB>::iterator it;
-    map<unsigned int, EDUID>::iterator tidIt;
+    pmdEDUCB *cb;
+    map<EDUID, pmdEDUCB*>::iterator it;
+    // map<unsigned int, EDUID>::iterator tidIt;
 
     /***************CRITICAL SECTION*********************/
     _mutex.get();
     if (_idleQueue.end() == (it = _idleQueue.find(eduID))) {
         if (_runQueue.end() == (it = _runQueue.find(eduID))) {
             rc = EDB_SYS;
-            PD_LOG("not found edu %lld in RunQueue and IdleQueue", eduID);
+            PD_LOG(PDERROR, "not found edu %lld in RunQueue and IdleQueue", eduID);
             goto error;
         }
         cb = (*it).second;
@@ -109,7 +179,7 @@ error:
 
 int pmdEDUMgr::_createNewEDU(EDU_TYPES type, void *arg, EDUID *eduid) {
     int rc = EDB_OK;
-    EDUCB *cb;
+    pmdEDUCB *cb;
     EDUID id;
 
     if (isQuiesced()) {
@@ -117,7 +187,7 @@ int pmdEDUMgr::_createNewEDU(EDU_TYPES type, void *arg, EDUID *eduid) {
         goto done;
     }
 
-    cb = new(std::nothrow)pmdEDUCB(this, type);
+    cb = new(nothrow)pmdEDUCB(this, type);
     if (!cb) {
         rc = EDB_OOM;
         PD_LOG(PDERROR, "Out of memory to create agent control block");
@@ -136,11 +206,11 @@ int pmdEDUMgr::_createNewEDU(EDU_TYPES type, void *arg, EDUID *eduid) {
     id = _EDUID;
     _EDUID++;
     try {
-        boost:thread agentThread(pmdEDUEntryPoint,
+        boost::thread agentThread(pmdEDUEntryPoint,
                         type, cb, arg);
         // detach the agent so that he's all on his own
         agentThread.detach();
-    } catch(std::exception e) {
+    } catch(exception e) {
         _runQueue.erase(id);
         rc = EDB_SYS;
         PD_LOG ( PDERROR,"Failed to create new agent, rc = %d", rc);
@@ -152,7 +222,7 @@ int pmdEDUMgr::_createNewEDU(EDU_TYPES type, void *arg, EDUID *eduid) {
     _mutex.release();
     /*************End CRITICAL SECTION*********************/
     // the edu is start, need post a resume event
-    eduCB->postEvent(pmdEDUEvent(PMD_EDU_EVENT_RESUME, false, arg));
+    cb->postEvent(pmdEDUEvent(PMD_EDU_EVENT_RESUME, false, arg));
 done:
     return rc;
 error:
@@ -162,9 +232,9 @@ error:
 // EMUMgr should decide whether put the EDU to pool or destroy it
 int pmdEDUMgr::returnEDU(EDUID eduID, bool force, bool* destroyed ) {
     int rc = EDB_OK;
-    EDUCB *educb;
+    pmdEDUCB *cb;
     EDU_TYPES type;
-    map<EDUID, *pmdEDUCB>::iterator it;
+    map<EDUID, pmdEDUCB*>::iterator it;
 
     /**************CRITICAL SECTION**********************/
     _mutex.get_shared();
@@ -178,10 +248,11 @@ int pmdEDUMgr::returnEDU(EDUID eduID, bool force, bool* destroyed ) {
             }
         }
     }
-    edbcb = (*it).second;
-    type = educb->getType();
+    cb = (*it).second;
+    type = cb->getType();
     _mutex.release_shared();
-    if (!isPoolable(type) || force || 
+    /**************END OF CRITICAL SECTION**********************/
+    if (!isPoolable(type) || force || isDestroyed() || 
         (unsigned int)pmdGetKRCB()->getMaxPool() > size()) {
         rc = _destoryEDU(eduID);
         if (destroyed) {
@@ -210,9 +281,8 @@ error:
 // remove it from the queue, and free the pmdCB
 int pmdEDUMgr::_destoryEDU(EDUID eduID) {
     int rc = EDB_OK;
-    EDUCB *cb;
-    EDU_TYPES type;
-    map<EDUID, *pmdEDUCB>::iterator it;
+    pmdEDUCB *cb;
+    map<EDUID, pmdEDUCB*>::iterator it;
     map<unsigned int, EDUID>::iterator tidIt;
 
     /***************CRITICAL SECTION*********************/
@@ -220,7 +290,7 @@ int pmdEDUMgr::_destoryEDU(EDUID eduID) {
     if(_runQueue.end() == (it = _runQueue.find(eduID))) {
         if(_idleQueue.end() == (it = _idleQueue.find(eduID))) {
             rc = EDB_SYS;
-            PD_LOG("not found edu %lld in RunQueue and IdleQueue", eduID);
+            PD_LOG(PDERROR, "not found edu %lld in RunQueue and IdleQueue", eduID);
             goto error;
         }
         cb = (*it).second;
@@ -240,8 +310,8 @@ int pmdEDUMgr::_destoryEDU(EDUID eduID) {
             break;
         }
     }
-    if (eduCB) {
-        delete(eduCB);
+    if (cb) {
+        delete(cb);
     }
 done:
     _mutex.release();
@@ -254,25 +324,24 @@ error:
 // return the edu to the pool and set the edu status to waitting
 int pmdEDUMgr::_deactiveEDU(EDUID eduID) {
     int rc = EDB_OK;
-    EDUCB *cb;
-    EDU_TYPES type;
-    map<EDUID, *pmdEDUCB>::iterator it;
+    pmdEDUCB *cb;
+    map<EDUID, pmdEDUCB*>::iterator it;
 
     /**************CRITICAL SECTION**************/
     _mutex.get();
     if(_runQueue.end() == (it = _runQueue.find(eduID))) {
         if(_idleQueue.end() == (it = _idleQueue.find(eduID))) {
             rc = EDB_SYS;
-            PD_LOG("not found edu %lld in RunQueue and IdleQueue", eduID);
+            PD_LOG(PDERROR, "not found edu %lld in RunQueue and IdleQueue", eduID);
             goto error;
         }
         cb = (*it).second;
-        cb->setStatus(PMD_EDU_WAITING);
+        cb->setStatus(PMD_EDU_WAITTING);
     } else {
         // move the edu from runqueue to idlequeue
         cb = (*it).second;
         _runQueue.erase(eduID);
-         cb->setStatus(PMD_EDU_WAITING);
+         cb->setStatus(PMD_EDU_WAITTING);
          _idleQueue[eduID] = cb;
     }
 done:
@@ -282,13 +351,48 @@ error:
     goto done;
 }
 
+// change edu status from running to waiting
+int pmdEDUMgr::waitEDU(EDUID id) {
+    int rc = EDB_OK;
+    pmdEDUCB *cb;
+    unsigned int eduStatus = PMD_EDU_CREATING;
+    map<EDUID, pmdEDUCB*>::iterator it;
+
+    /**************CRITICAL SECTION**************/
+    _mutex.get();
+    if (_runQueue.end() == (it = _runQueue.find(id))) {
+        // can't find EDU in run queue
+        rc = EDB_SYS;
+        goto error;
+    }
+    cb = (*it).second;
+
+    eduStatus = cb->getStatus();
+
+    // if it's already waitting, let's do nothing
+    if (PMD_IS_EDU_WAITTING(eduStatus)) {
+        goto done;
+    }
+    if (!PMD_IS_EDU_RUNNING(eduStatus)) {
+        rc = EDB_EDU_INVAL_STATUS;
+        goto error;
+    }
+    cb->setStatus(PMD_EDU_WAITTING);
+done :
+    _mutex.release() ;
+    /************* END CRITICAL SECTION **************/
+    return rc ;
+error :
+    goto done ;
+
+}
+
 // post an event to EDU
 int pmdEDUMgr::postEDUPost(EDUID eduID, pmdEDUEventTypes type,
                     bool release, void *pData) {
     int rc = EDB_OK;
-    EDUCB *cb;
-    pmdEDUEvent *event;
-    map<EDUID, *pmdEDUCB>::iterator it;
+    pmdEDUCB *cb;
+    map<EDUID, pmdEDUCB*>::iterator it;
 
     /**************CRITICAL SECTION**************/
     _mutex.get();
@@ -296,7 +400,7 @@ int pmdEDUMgr::postEDUPost(EDUID eduID, pmdEDUEventTypes type,
     if(_runQueue.end() == (it = _runQueue.find(eduID))) {
         if(_idleQueue.end() == (it = _idleQueue.find(eduID))) {
             rc = EDB_SYS;
-            PD_LOG("not found edu %lld in RunQueue and IdleQueue", eduID);
+            PD_LOG(PDERROR, "not found edu %lld in RunQueue and IdleQueue", eduID);
             goto error;
         }
     }
@@ -313,8 +417,8 @@ error:
 int pmdEDUMgr::waitEDUPost(EDUID eduID, pmdEDUEvent& event,
                              long long millsecond) {
     int rc = EDB_OK ;
-    pmdEDUCB* eduCB = NULL ;
-    std::map<EDUID, pmdEDUCB*>::iterator it ;
+    pmdEDUCB* cb = NULL ;
+    map<EDUID, pmdEDUCB*>::iterator it ;
     /**************CRITICAL SECTION**************/
     _mutex.get_shared () ;
     if ( _runQueue.end () == (it = _runQueue.find ( eduID ))){
@@ -325,13 +429,13 @@ int pmdEDUMgr::waitEDUPost(EDUID eduID, pmdEDUEvent& event,
         if ( _idleQueue.end () == ( it = _idleQueue.find ( eduID )) ){
             // we can't find edu id anywhere
             rc = EDB_SYS ;
-            PD_LOG("not found edu %lld in RunQueue and IdleQueue", eduID);
+            PD_LOG(PDERROR,"not found edu %lld in RunQueue and IdleQueue", eduID);
             goto error ;
         }
     }
-    eduCB = ( *it ).second ;
+    cb = ( *it ).second ;
     // wait for event. when millsecond is 0, it should always return true
-    if ( !eduCB->waitEvent( event, millsecond )){
+    if ( !cb->waitEvent( event, millsecond )){
         rc = EDB_TIMEOUT ;
         goto error ;
     }

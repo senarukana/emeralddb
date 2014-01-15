@@ -63,13 +63,15 @@ edb_DEPENDENCIES =
 edb_LINK = $(CXXLD) $(edb_CXXFLAGS) $(CXXFLAGS) $(edb_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am_emeralddb_OBJECTS = emeralddb-pmdMain.$(OBJEXT) \
-	emeralddb-pmdListener.$(OBJEXT) emeralddb-pmdOptions.$(OBJEXT) \
-	emeralddb-pmd.$(OBJEXT) emeralddb-bsonobj.$(OBJEXT) \
-	emeralddb-json.$(OBJEXT) emeralddb-oid.$(OBJEXT) \
-	emeralddb-base64.$(OBJEXT) emeralddb-md5.$(OBJEXT) \
-	emeralddb-nonce.$(OBJEXT) emeralddb-ossSocket.$(OBJEXT) \
-	emeralddb-ossFileOp.$(OBJEXT) emeralddb-pd.$(OBJEXT) \
-	emeralddb-msg.$(OBJEXT)
+	emeralddb-pmdTcpListener.$(OBJEXT) \
+	emeralddb-pmdAgent.$(OBJEXT) emeralddb-pmd.$(OBJEXT) \
+	emeralddb-pmdOptions.$(OBJEXT) emeralddb-pmdCommand.$(OBJEXT) \
+	emeralddb-pmdEDUMgr.$(OBJEXT) emeralddb-pmdEDU.$(OBJEXT) \
+	emeralddb-bsonobj.$(OBJEXT) emeralddb-json.$(OBJEXT) \
+	emeralddb-oid.$(OBJEXT) emeralddb-base64.$(OBJEXT) \
+	emeralddb-md5.$(OBJEXT) emeralddb-nonce.$(OBJEXT) \
+	emeralddb-ossSocket.$(OBJEXT) emeralddb-ossFileOp.$(OBJEXT) \
+	emeralddb-pd.$(OBJEXT) emeralddb-msg.$(OBJEXT)
 emeralddb_OBJECTS = $(am_emeralddb_OBJECTS)
 emeralddb_DEPENDENCIES =
 emeralddb_LINK = $(CXXLD) $(emeralddb_CXXFLAGS) $(CXXFLAGS) \
@@ -202,7 +204,9 @@ top_builddir = .
 top_srcdir = .
 AUTOMAKE_OPTIONS = foreign
 emeralddb_SOURCES = \
-	pmd/pmdMain.cpp pmd/pmdListener.cpp pmd/pmdOptions.cpp pmd/pmd.cpp\
+	pmd/pmdMain.cpp pmd/pmdTcpListener.cpp pmd/pmdAgent.cpp pmd/pmd.cpp\
+    pmd/pmdOptions.cpp pmd/pmdCommand.cpp \
+    pmd/pmdEDUMgr.cpp pmd/pmdEDU.cpp \
 	bson/src/bsonobj.cpp bson/src/util/json.cpp bson/src/oid.cpp \
 	bson/src/lib/base64.cpp bson/src/lib/md5.cpp bson/src/lib/nonce.cpp \
     oss/ossSocket.cpp oss/ossFileOp.cpp \
@@ -215,10 +219,10 @@ edb_SOURCES = \
     oss/ossSocket.cpp oss/ossFileOp.cpp \
     pd/pd.cpp msg/msg.cpp
 
-emeralddb_CXXFLAGS = -I../boost -Ibson/src -Iinclude -D_FILE_OFFSET_BITS=32 -std=c++11 -ggdb -Wall -O0
+emeralddb_CXXFLAGS = -I../boost -Ibson/src -Iinclude -D_FILE_OFFSET_BITS=64 -ggdb -Wall -O0 -std=c++11
 emeralddb_LDADD = -lpthread -lm -lboost_system -lboost_thread -lboost_program_options -lrt
 emeralddb_LDFLAGS = -fPIC -rdynamic -L../boost/stage/lib -pthread
-edb_CXXFLAGS = -I../boost -Ibson/src -Iinclude -D_FILE_OFFSET_BITS=32 -std=c++11 -ggdb -Wall -O0
+edb_CXXFLAGS = -I../boost -Ibson/src -Iinclude -D_FILE_OFFSET_BITS=64 -ggdb -Wall -O0 -std=c++11
 edb_LDADD = -lm -lboost_system -lboost_thread -lrt
 edb_LDFLAGS = -fPIC -rdynamic -L../boost/stage/lib
 all: config.h
@@ -350,9 +354,13 @@ include ./$(DEPDIR)/emeralddb-ossFileOp.Po
 include ./$(DEPDIR)/emeralddb-ossSocket.Po
 include ./$(DEPDIR)/emeralddb-pd.Po
 include ./$(DEPDIR)/emeralddb-pmd.Po
-include ./$(DEPDIR)/emeralddb-pmdListener.Po
+include ./$(DEPDIR)/emeralddb-pmdAgent.Po
+include ./$(DEPDIR)/emeralddb-pmdCommand.Po
+include ./$(DEPDIR)/emeralddb-pmdEDU.Po
+include ./$(DEPDIR)/emeralddb-pmdEDUMgr.Po
 include ./$(DEPDIR)/emeralddb-pmdMain.Po
 include ./$(DEPDIR)/emeralddb-pmdOptions.Po
+include ./$(DEPDIR)/emeralddb-pmdTcpListener.Po
 
 .cpp.o:
 	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -578,19 +586,47 @@ emeralddb-pmdMain.obj: pmd/pmdMain.cpp
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdMain.obj `if test -f 'pmd/pmdMain.cpp'; then $(CYGPATH_W) 'pmd/pmdMain.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdMain.cpp'; fi`
 
-emeralddb-pmdListener.o: pmd/pmdListener.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdListener.o -MD -MP -MF $(DEPDIR)/emeralddb-pmdListener.Tpo -c -o emeralddb-pmdListener.o `test -f 'pmd/pmdListener.cpp' || echo '$(srcdir)/'`pmd/pmdListener.cpp
-	$(am__mv) $(DEPDIR)/emeralddb-pmdListener.Tpo $(DEPDIR)/emeralddb-pmdListener.Po
-#	source='pmd/pmdListener.cpp' object='emeralddb-pmdListener.o' libtool=no \
+emeralddb-pmdTcpListener.o: pmd/pmdTcpListener.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdTcpListener.o -MD -MP -MF $(DEPDIR)/emeralddb-pmdTcpListener.Tpo -c -o emeralddb-pmdTcpListener.o `test -f 'pmd/pmdTcpListener.cpp' || echo '$(srcdir)/'`pmd/pmdTcpListener.cpp
+	$(am__mv) $(DEPDIR)/emeralddb-pmdTcpListener.Tpo $(DEPDIR)/emeralddb-pmdTcpListener.Po
+#	source='pmd/pmdTcpListener.cpp' object='emeralddb-pmdTcpListener.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdListener.o `test -f 'pmd/pmdListener.cpp' || echo '$(srcdir)/'`pmd/pmdListener.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdTcpListener.o `test -f 'pmd/pmdTcpListener.cpp' || echo '$(srcdir)/'`pmd/pmdTcpListener.cpp
 
-emeralddb-pmdListener.obj: pmd/pmdListener.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdListener.obj -MD -MP -MF $(DEPDIR)/emeralddb-pmdListener.Tpo -c -o emeralddb-pmdListener.obj `if test -f 'pmd/pmdListener.cpp'; then $(CYGPATH_W) 'pmd/pmdListener.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdListener.cpp'; fi`
-	$(am__mv) $(DEPDIR)/emeralddb-pmdListener.Tpo $(DEPDIR)/emeralddb-pmdListener.Po
-#	source='pmd/pmdListener.cpp' object='emeralddb-pmdListener.obj' libtool=no \
+emeralddb-pmdTcpListener.obj: pmd/pmdTcpListener.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdTcpListener.obj -MD -MP -MF $(DEPDIR)/emeralddb-pmdTcpListener.Tpo -c -o emeralddb-pmdTcpListener.obj `if test -f 'pmd/pmdTcpListener.cpp'; then $(CYGPATH_W) 'pmd/pmdTcpListener.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdTcpListener.cpp'; fi`
+	$(am__mv) $(DEPDIR)/emeralddb-pmdTcpListener.Tpo $(DEPDIR)/emeralddb-pmdTcpListener.Po
+#	source='pmd/pmdTcpListener.cpp' object='emeralddb-pmdTcpListener.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdListener.obj `if test -f 'pmd/pmdListener.cpp'; then $(CYGPATH_W) 'pmd/pmdListener.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdListener.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdTcpListener.obj `if test -f 'pmd/pmdTcpListener.cpp'; then $(CYGPATH_W) 'pmd/pmdTcpListener.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdTcpListener.cpp'; fi`
+
+emeralddb-pmdAgent.o: pmd/pmdAgent.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdAgent.o -MD -MP -MF $(DEPDIR)/emeralddb-pmdAgent.Tpo -c -o emeralddb-pmdAgent.o `test -f 'pmd/pmdAgent.cpp' || echo '$(srcdir)/'`pmd/pmdAgent.cpp
+	$(am__mv) $(DEPDIR)/emeralddb-pmdAgent.Tpo $(DEPDIR)/emeralddb-pmdAgent.Po
+#	source='pmd/pmdAgent.cpp' object='emeralddb-pmdAgent.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdAgent.o `test -f 'pmd/pmdAgent.cpp' || echo '$(srcdir)/'`pmd/pmdAgent.cpp
+
+emeralddb-pmdAgent.obj: pmd/pmdAgent.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdAgent.obj -MD -MP -MF $(DEPDIR)/emeralddb-pmdAgent.Tpo -c -o emeralddb-pmdAgent.obj `if test -f 'pmd/pmdAgent.cpp'; then $(CYGPATH_W) 'pmd/pmdAgent.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdAgent.cpp'; fi`
+	$(am__mv) $(DEPDIR)/emeralddb-pmdAgent.Tpo $(DEPDIR)/emeralddb-pmdAgent.Po
+#	source='pmd/pmdAgent.cpp' object='emeralddb-pmdAgent.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdAgent.obj `if test -f 'pmd/pmdAgent.cpp'; then $(CYGPATH_W) 'pmd/pmdAgent.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdAgent.cpp'; fi`
+
+emeralddb-pmd.o: pmd/pmd.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmd.o -MD -MP -MF $(DEPDIR)/emeralddb-pmd.Tpo -c -o emeralddb-pmd.o `test -f 'pmd/pmd.cpp' || echo '$(srcdir)/'`pmd/pmd.cpp
+	$(am__mv) $(DEPDIR)/emeralddb-pmd.Tpo $(DEPDIR)/emeralddb-pmd.Po
+#	source='pmd/pmd.cpp' object='emeralddb-pmd.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmd.o `test -f 'pmd/pmd.cpp' || echo '$(srcdir)/'`pmd/pmd.cpp
+
+emeralddb-pmd.obj: pmd/pmd.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmd.obj -MD -MP -MF $(DEPDIR)/emeralddb-pmd.Tpo -c -o emeralddb-pmd.obj `if test -f 'pmd/pmd.cpp'; then $(CYGPATH_W) 'pmd/pmd.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmd.cpp'; fi`
+	$(am__mv) $(DEPDIR)/emeralddb-pmd.Tpo $(DEPDIR)/emeralddb-pmd.Po
+#	source='pmd/pmd.cpp' object='emeralddb-pmd.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmd.obj `if test -f 'pmd/pmd.cpp'; then $(CYGPATH_W) 'pmd/pmd.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmd.cpp'; fi`
 
 emeralddb-pmdOptions.o: pmd/pmdOptions.cpp
 	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdOptions.o -MD -MP -MF $(DEPDIR)/emeralddb-pmdOptions.Tpo -c -o emeralddb-pmdOptions.o `test -f 'pmd/pmdOptions.cpp' || echo '$(srcdir)/'`pmd/pmdOptions.cpp
@@ -606,19 +642,47 @@ emeralddb-pmdOptions.obj: pmd/pmdOptions.cpp
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdOptions.obj `if test -f 'pmd/pmdOptions.cpp'; then $(CYGPATH_W) 'pmd/pmdOptions.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdOptions.cpp'; fi`
 
-emeralddb-pmd.o: pmd/pmd.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmd.o -MD -MP -MF $(DEPDIR)/emeralddb-pmd.Tpo -c -o emeralddb-pmd.o `test -f 'pmd/pmd.cpp' || echo '$(srcdir)/'`pmd/pmd.cpp
-	$(am__mv) $(DEPDIR)/emeralddb-pmd.Tpo $(DEPDIR)/emeralddb-pmd.Po
-#	source='pmd/pmd.cpp' object='emeralddb-pmd.o' libtool=no \
+emeralddb-pmdCommand.o: pmd/pmdCommand.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdCommand.o -MD -MP -MF $(DEPDIR)/emeralddb-pmdCommand.Tpo -c -o emeralddb-pmdCommand.o `test -f 'pmd/pmdCommand.cpp' || echo '$(srcdir)/'`pmd/pmdCommand.cpp
+	$(am__mv) $(DEPDIR)/emeralddb-pmdCommand.Tpo $(DEPDIR)/emeralddb-pmdCommand.Po
+#	source='pmd/pmdCommand.cpp' object='emeralddb-pmdCommand.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmd.o `test -f 'pmd/pmd.cpp' || echo '$(srcdir)/'`pmd/pmd.cpp
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdCommand.o `test -f 'pmd/pmdCommand.cpp' || echo '$(srcdir)/'`pmd/pmdCommand.cpp
 
-emeralddb-pmd.obj: pmd/pmd.cpp
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmd.obj -MD -MP -MF $(DEPDIR)/emeralddb-pmd.Tpo -c -o emeralddb-pmd.obj `if test -f 'pmd/pmd.cpp'; then $(CYGPATH_W) 'pmd/pmd.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmd.cpp'; fi`
-	$(am__mv) $(DEPDIR)/emeralddb-pmd.Tpo $(DEPDIR)/emeralddb-pmd.Po
-#	source='pmd/pmd.cpp' object='emeralddb-pmd.obj' libtool=no \
+emeralddb-pmdCommand.obj: pmd/pmdCommand.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdCommand.obj -MD -MP -MF $(DEPDIR)/emeralddb-pmdCommand.Tpo -c -o emeralddb-pmdCommand.obj `if test -f 'pmd/pmdCommand.cpp'; then $(CYGPATH_W) 'pmd/pmdCommand.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdCommand.cpp'; fi`
+	$(am__mv) $(DEPDIR)/emeralddb-pmdCommand.Tpo $(DEPDIR)/emeralddb-pmdCommand.Po
+#	source='pmd/pmdCommand.cpp' object='emeralddb-pmdCommand.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmd.obj `if test -f 'pmd/pmd.cpp'; then $(CYGPATH_W) 'pmd/pmd.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmd.cpp'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdCommand.obj `if test -f 'pmd/pmdCommand.cpp'; then $(CYGPATH_W) 'pmd/pmdCommand.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdCommand.cpp'; fi`
+
+emeralddb-pmdEDUMgr.o: pmd/pmdEDUMgr.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdEDUMgr.o -MD -MP -MF $(DEPDIR)/emeralddb-pmdEDUMgr.Tpo -c -o emeralddb-pmdEDUMgr.o `test -f 'pmd/pmdEDUMgr.cpp' || echo '$(srcdir)/'`pmd/pmdEDUMgr.cpp
+	$(am__mv) $(DEPDIR)/emeralddb-pmdEDUMgr.Tpo $(DEPDIR)/emeralddb-pmdEDUMgr.Po
+#	source='pmd/pmdEDUMgr.cpp' object='emeralddb-pmdEDUMgr.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdEDUMgr.o `test -f 'pmd/pmdEDUMgr.cpp' || echo '$(srcdir)/'`pmd/pmdEDUMgr.cpp
+
+emeralddb-pmdEDUMgr.obj: pmd/pmdEDUMgr.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdEDUMgr.obj -MD -MP -MF $(DEPDIR)/emeralddb-pmdEDUMgr.Tpo -c -o emeralddb-pmdEDUMgr.obj `if test -f 'pmd/pmdEDUMgr.cpp'; then $(CYGPATH_W) 'pmd/pmdEDUMgr.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdEDUMgr.cpp'; fi`
+	$(am__mv) $(DEPDIR)/emeralddb-pmdEDUMgr.Tpo $(DEPDIR)/emeralddb-pmdEDUMgr.Po
+#	source='pmd/pmdEDUMgr.cpp' object='emeralddb-pmdEDUMgr.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdEDUMgr.obj `if test -f 'pmd/pmdEDUMgr.cpp'; then $(CYGPATH_W) 'pmd/pmdEDUMgr.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdEDUMgr.cpp'; fi`
+
+emeralddb-pmdEDU.o: pmd/pmdEDU.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdEDU.o -MD -MP -MF $(DEPDIR)/emeralddb-pmdEDU.Tpo -c -o emeralddb-pmdEDU.o `test -f 'pmd/pmdEDU.cpp' || echo '$(srcdir)/'`pmd/pmdEDU.cpp
+	$(am__mv) $(DEPDIR)/emeralddb-pmdEDU.Tpo $(DEPDIR)/emeralddb-pmdEDU.Po
+#	source='pmd/pmdEDU.cpp' object='emeralddb-pmdEDU.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdEDU.o `test -f 'pmd/pmdEDU.cpp' || echo '$(srcdir)/'`pmd/pmdEDU.cpp
+
+emeralddb-pmdEDU.obj: pmd/pmdEDU.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-pmdEDU.obj -MD -MP -MF $(DEPDIR)/emeralddb-pmdEDU.Tpo -c -o emeralddb-pmdEDU.obj `if test -f 'pmd/pmdEDU.cpp'; then $(CYGPATH_W) 'pmd/pmdEDU.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdEDU.cpp'; fi`
+	$(am__mv) $(DEPDIR)/emeralddb-pmdEDU.Tpo $(DEPDIR)/emeralddb-pmdEDU.Po
+#	source='pmd/pmdEDU.cpp' object='emeralddb-pmdEDU.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdEDU.obj `if test -f 'pmd/pmdEDU.cpp'; then $(CYGPATH_W) 'pmd/pmdEDU.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdEDU.cpp'; fi`
 
 emeralddb-bsonobj.o: bson/src/bsonobj.cpp
 	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-bsonobj.o -MD -MP -MF $(DEPDIR)/emeralddb-bsonobj.Tpo -c -o emeralddb-bsonobj.o `test -f 'bson/src/bsonobj.cpp' || echo '$(srcdir)/'`bson/src/bsonobj.cpp

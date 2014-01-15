@@ -62,3 +62,204 @@ Function:recv                                Line:247
 File:oss/ossSocket.cpp
 Message:Failed to select from socket, rc = -11
 
+2014-01-15-19.40.30.281580                   Level:EVENT
+PID:8260                                     TID:8261
+Function:pmdEDUEntryPoint                    Line:99
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 1 is idle for enough time
+
+2014-01-15-19.40.30.281372                   Level:EVENT
+PID:8260                                     TID:8260
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-15-22.12.05.936309                   Level:EVENT
+PID:18914                                    TID:18914
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-15-22.12.05.936613                   Level:EVENT
+PID:18914                                    TID:18915
+Function:pmdEDUEntryPoint                    Line:102
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 1 is idle for enough time
+
+2014-01-15-22.20.01.364168                   Level:EVENT
+PID:20502                                    TID:20502
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-15-22.20.01.365481                   Level:EVENT
+PID:20502                                    TID:20503
+Function:pmdEDUEntryPoint                    Line:102
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 1, type 0 is idle for enough time
+
+2014-01-15-22.21.00.010807                   Level:EVENT
+PID:21937                                    TID:21937
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-15-22.24.10.526513                   Level:EVENT
+PID:23415                                    TID:23415
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-15-22.24.10.527027                   Level:EVENT
+PID:23415                                    TID:23416
+Function:pmdEDUEntryPoint                    Line:118
+File:pmd/pmdEDU.cpp
+Message: 
+begin run thread function
+
+2014-01-15-22.24.10.545210                   Level:EVENT
+PID:23415                                    TID:23416
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-01-15-22.24.20.359033                   Level:EVENT
+PID:23415                                    TID:23422
+Function:pmdEDUEntryPoint                    Line:118
+File:pmd/pmdEDU.cpp
+Message: 
+begin run thread function
+
+2014-01-15-22.24.20.369300                   Level:SEVERE
+PID:23415                                    TID:23422
+Function:pmdAgentEntryPoint                  Line:222
+File:pmd/pmdAgent.cpp
+Message: 
+Internal error
+
+2014-01-15-22.24.20.369753                   Level:SEVERE
+PID:23415                                    TID:23422
+Function:pmdEDUEntryPoint                    Line:125
+File:pmd/pmdEDU.cpp
+Message: 
+System EDU: 2, type Agent exits with -8
+
+2014-01-15-22.29.39.877924                   Level:EVENT
+PID:25026                                    TID:25026
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-15-22.29.39.878390                   Level:EVENT
+PID:25026                                    TID:25027
+Function:pmdEDUEntryPoint                    Line:146
+File:pmd/pmdEDU.cpp
+Message: 
+begin run thread function
+
+2014-01-15-22.29.39.883466                   Level:EVENT
+PID:25026                                    TID:25027
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-01-15-22.29.58.868182                   Level:EVENT
+PID:25026                                    TID:25034
+Function:pmdEDUEntryPoint                    Line:146
+File:pmd/pmdEDU.cpp
+Message: 
+begin run thread function
+
+2014-01-15-22.30.00.953167                   Level:ERROR
+PID:25026                                    TID:25034
+Function:recv                                Line:278
+File:oss/ossSocket.cpp
+Message: 
+Peer unexpected shutdown
+
+2014-01-15-22.30.00.953315                   Level:SEVERE
+PID:25026                                    TID:25034
+Function:pmdAgentEntryPoint                  Line:213
+File:pmd/pmdAgent.cpp
+Message: 
+Network error occured
+
+2014-01-15-22.30.00.953495                   Level:SEVERE
+PID:25026                                    TID:25034
+Function:pmdEDUEntryPoint                    Line:153
+File:pmd/pmdEDU.cpp
+Message: 
+System EDU: 2, type Agent exits with -11
+
+2014-01-15-22.35.03.131328                   Level:EVENT
+PID:26499                                    TID:26499
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-15-22.35.03.134887                   Level:EVENT
+PID:26499                                    TID:26500
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-01-15-22.35.25.129849                   Level:EVENT
+PID:26499                                    TID:26503
+Function:pmdInsertCommand                    Line:63
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { home: "ted" }
+
+2014-01-15-22.40.53.992676                   Level:EVENT
+PID:26729                                    TID:26729
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-15-22.40.53.995178                   Level:EVENT
+PID:26729                                    TID:26730
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-01-15-22.41.36.992341                   Level:EVENT
+PID:26729                                    TID:26804
+Function:pmdInsertCommand                    Line:63
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { name: "ted" }
+
+2014-01-15-22.43.39.430825                   Level:EVENT
+PID:26932                                    TID:26932
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-15-22.43.39.437466                   Level:EVENT
+PID:26932                                    TID:26935
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+

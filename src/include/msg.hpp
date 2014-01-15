@@ -58,6 +58,12 @@ struct MsgQuery {
    char        key[0];
 };
 
+struct MsgCommand {
+   MsgHeader   header;
+   int         numArgs;
+   char        data[0];
+};
+
 int msgBuildReply(char **ppBuffer, int *pBufferSize,
                   int returnCode, bson::BSONObj *objReturn);
 
@@ -67,5 +73,13 @@ int msgExtractReply(char *pBuffer, int &returnCode, int &numReturn,
 int msgBuildInsert(char **ppBuffer, int *pBufferSize, bson::BSONObj &obj);
 
 int msgBuildInsert(char **ppBuffer, int *pBufferSize, vector<bson::BSONObj*> &obj);
+
+int msgExtractInsert(char *pBuffer, int &numInsert, const char **ppObjStart);
+
+int msgBuildDelete(char **ppBuffer, int *pBufferSize, bson::BSONObj &key);
+
+int msgExtractDelete(char *pBuffer, bson::BSONObj &key);
+
+int msgBuildQuery(char **ppBuffer, int *pBufferSize, bson::BSONObj &key);
 
 #endif

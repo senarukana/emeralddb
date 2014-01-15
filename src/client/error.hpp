@@ -33,5 +33,6 @@
 #define EDB_SOCKET_REMOTE_CLOSED       -304
 #define EDB_SOCKET_SEND_FAILED         -305
 
+#define EDB_INTERNAL_ERROR             -401
 
 void getError(int code);

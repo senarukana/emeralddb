@@ -781,7 +781,7 @@ edb-command.o: client/command.cpp include/core.hpp /usr/include/unistd.h \
  ../boost/boost/config/abi_prefix.hpp \
  ../boost/boost/config/abi_suffix.hpp client/command.hpp \
  include/ossSocket.hpp include/core.hpp bson/src/util/json.h \
- client/commandFactory.hpp client/error.hpp
+ client/commandFactory.hpp client/error.hpp include/pd.hpp
 
 include/core.hpp:
 
@@ -2674,3 +2674,5 @@ bson/src/util/json.h:
 client/commandFactory.hpp:
 
 client/error.hpp:
+
+include/pd.hpp:

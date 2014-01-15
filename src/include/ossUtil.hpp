@@ -22,7 +22,7 @@ inline void ossSleepMicros(unsigned int s) {
     struct timespec t;
     t.tv_sec = (time_t) (s / 1000000);
     t.tv_nsec = 1000 * (s % 1000000);
-    while (nanosleep(&t,&t) == -1 && errno = EINTR);
+    while (nanosleep(&t,&t) == -1 && errno == EINTR);
 }
 
 inline void ossSleepMillis(unsigned int s) {

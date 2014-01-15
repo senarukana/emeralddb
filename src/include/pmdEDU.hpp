@@ -7,7 +7,7 @@
 #include "ossQueue.hpp"
 #include "ossSocket.hpp"
 
-#define PMD_INVALID_EUDID 0
+#define PMD_INVALID_EDUID 0
 #define PMD_IS_EDU_CREATING(x)          (PMD_EDU_CREATING == x )
 #define PMD_IS_EDU_RUNNING(x)           (PMD_EDU_RUNNING == x)
 #define PMD_IS_EDU_WAITTING(x)          (PMD_EDU_WAITTING == x)
@@ -39,6 +39,15 @@ enum EDU_STATUS {
 class pmdEDUMgr;
 
 class pmdEDUCB {
+private:
+    EDU_TYPES   _type;
+    pmdEDUMgr   *_mgr;
+    EDU_STATUS  _status;
+    EDUID       _id;
+    bool        _isForced;
+    bool        _isDisconnected;
+    int         _maxIdleTime; //ms
+    ossQueue<pmdEDUEvent> _queue;  
 public:
     pmdEDUCB(pmdEDUMgr *mgr, EDU_TYPES type):
     _type(type),
@@ -57,7 +66,7 @@ public:
     }
     bool waitEvent(pmdEDUEvent &data, long long millsec) {
         bool waitMsg = false;
-        if (status != PMD_EDU_IDLE) {
+        if (_status != PMD_EDU_IDLE) {
             _status = PMD_EDU_WAITTING;
         }
         if (millsec <= 0) {
@@ -82,6 +91,15 @@ public:
     inline void disconnect() {
         _isDisconnected = true;
     }
+    inline EDU_TYPES getType() {
+        return _type;
+    }
+    inline EDU_STATUS getStatus() {
+        return _status;
+    }
+    inline pmdEDUMgr *getEDUMgr() {
+        return _mgr;
+    }
     inline void setType(EDU_TYPES type) {
         _type = type;
     }
@@ -94,29 +112,22 @@ public:
     inline bool isForced() {
         return _isForced;
     }
-    inline pmdEDUMgr *getEDUMgr() {
-        return _mgr;
-    }
     inline int maxIdleTime() {
         return _maxIdleTime;
-    }
-
-private:
-    EDU_TYPES   _type;
-    pmdEDUMgr   *mgr;
-    EDU_STATUS  _status;
-    EDUID       _id;
-    bool        _isForced;
-    bool        _isDisconnected;
-    int         _maxIdleTime; //ms
-    ossQueue<pmdEDUEvent> _queue;       
+    }     
 }; 
 
 typedef int (*pmdEntryPoint) (pmdEDUCB *, void *);
 pmdEntryPoint getEntryFuncByType(EDU_TYPES type);
 
+void initEDUFunctionMap();
+
 int pmdAgentEntryPoint(pmdEDUCB *cb, void *arg);
-int pmdTCPListenerEntryPoint(pmdEDUCB *cb, void *arg);
+int pmdTcpListenerEntryPoint(pmdEDUCB *cb, void *arg);
 int pmdEDUEntryPoint(EDU_TYPES type, pmdEDUCB *cb, void *arg);
+
+int pmdRecv(char *pBuffer, int recvSize,
+              ossSocket *sock, pmdEDUCB *cb );
+int pmdSend(char *pBuffer, int sendSize, ossSocket *sock, pmdEDUCB *cb);
 
 #endif

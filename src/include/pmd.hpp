@@ -18,6 +18,8 @@
 #define PMD_HPP__
 
 #include "core.hpp"
+#include "pmdCommand.hpp"
+#include "pmdEDUMgr.hpp"
 
 enum EDB_DB_STATUS
 {
@@ -43,7 +45,10 @@ private:
    char          _logFilePath  [ OSS_MAX_PATHSIZE + 1 ] ;
    int           _maxPool ;
    char          _svcName [ NI_MAXSERV + 1 ] ;
-   EDB_DB_STATUS _dbStatus ;
+   EDB_DB_STATUS _dbStatus;
+private:
+   pmdCommand    _commandMap;
+   pmdEDUMgr     _eduMgr;
 public:
    // constructor
    EDB_KRCB ()
@@ -58,6 +63,10 @@ public:
    ~EDB_KRCB () {}
 
    // inline function
+   // get edu mgr
+   pmdEDUMgr *getEDUMgr() {
+      return &_eduMgr ;
+   }
    // get database status
    inline EDB_DB_STATUS getDBStatus ()
    {
@@ -82,6 +91,10 @@ public:
    inline int getMaxPool ()
    {
       return _maxPool ;
+   }
+   // get command map
+   inline pmdCommand *getCommandMap() {
+      return &_commandMap;
    }
    // setup database status
    inline void setDBStatus ( EDB_DB_STATUS status )
@@ -111,6 +124,7 @@ public:
    {
       _maxPool = maxPool ;
    }
+
 
    // setup from pmdOptions
    int init(pmdOptions *options) ;

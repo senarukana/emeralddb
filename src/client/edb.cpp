@@ -107,7 +107,7 @@ int Edb::_readInput() {
       return EDB_ARGUMENT_TOO_LONG;
    }
    _cmdBuffer[i] = '\0';
-   std::cout<<i<<_cmdBuffer<<std::endl;
+   // std::cout<<i<<_cmdBuffer<<std::endl;
    return EDB_OK;
 }
 

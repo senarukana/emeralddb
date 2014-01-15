@@ -44,7 +44,7 @@ public:
 
     pmdEDUEvent(pmdEDUEventTypes type, bool release, void *data):
     _eventType(type),
-    _release(_release),
+    _release(release),
     _Data(data)
     {}
 

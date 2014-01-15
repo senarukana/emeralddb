@@ -19,10 +19,13 @@
 #include "command.hpp"
 #include "commandFactory.hpp"
 #include "error.hpp"
+#include "pd.hpp"
 
 COMMAND_BEGIN
 COMMAND_ADD(COMMAND_INSERT, InsertCommand);
 COMMAND_ADD(COMMAND_CONNECT, ConnectCommand);
+COMMAND_ADD(COMMAND_DELETE, DeleteCommand);
+COMMAND_ADD(COMMAND_QUERY, QueryCommand);
 COMMAND_END
 
 
@@ -43,12 +46,15 @@ int ICommand::recvReply(ossSocket &socket) {
     for (;;) {
         // first read the length of the data
         rc = socket.recv(_recvBuf, sizeof(int));
-        if (rc == EDB_TIMEOUT) {
+        if (rc == EDB_OK) {
+            break;
+        } else if (rc == EDB_TIMEOUT) {
             continue;
         } else if (rc == EDB_NETWORK_CLOSE) {
             return EDB_SOCKET_REMOTE_CLOSED;
         } else {
-            break;
+            PD_LOG(PDERROR, "recv reply error, rc = %d", rc);
+            return EDB_INTERNAL_ERROR;
         }
     }
 
@@ -59,12 +65,15 @@ int ICommand::recvReply(ossSocket &socket) {
 
     for (;;) {
         rc = socket.recv(&_recvBuf[sizeof(int)], length - sizeof(int));
-        if (rc == EDB_TIMEOUT) {
+         if (rc == EDB_OK) {
+            break;
+        } else if (rc == EDB_TIMEOUT) {
             continue;
         } else if (rc == EDB_NETWORK_CLOSE) {
             return EDB_SOCKET_REMOTE_CLOSED;
         } else {
-            break;
+            PD_LOG(PDERROR, "recv reply error, rc = %d", rc);
+            return EDB_INTERNAL_ERROR;
         }
     }
     return EDB_OK;
@@ -110,6 +119,71 @@ int InsertCommand::execute(ossSocket &socket, std::vector<std::string> &argVec) 
         return EDB_SOCKET_NOT_CONNECT;
     }
     if ((rc = sendMsg(socket, msgBuildInsert)) < 0) {
+        return rc;
+    }
+
+    if ((rc = recvReply(socket)) < 0) {
+        return rc;
+    }
+
+    if ((rc = handleReply()) < 0) {
+        return rc;
+    }
+    return rc;
+}
+
+/******************************DeleteCommand**********************************************/
+
+int DeleteCommand::handleReply() {
+    MsgReply *msg = (MsgReply*)_recvBuf;
+    return msg->returnCode;
+}
+
+int DeleteCommand::execute(ossSocket &socket, std::vector<std::string> &argVec) {
+    int rc = EDB_OK;
+    if (argVec.size() != 1) {
+        return EDB_DELETE_INVALID_ARGUMENT;
+    }
+    _jsonString = argVec[0];
+    if (!socket.isConnected()) {
+        return EDB_SOCKET_NOT_CONNECT;
+    }
+    if ((rc = sendMsg(socket, msgBuildDelete)) < 0) {
+        return rc;
+    }
+
+    if ((rc = recvReply(socket)) < 0) {
+        return rc;
+    }
+
+    if ((rc = handleReply()) < 0) {
+        return rc;
+    }
+    return rc;
+}
+
+/******************************DeleteCommand**********************************************/
+
+int QueryCommand::handleReply() {
+    MsgReply *msg = (MsgReply*)_recvBuf;
+    int returnCode = msg->returnCode;
+    if (returnCode == EDB_OK) {
+        bson::BSONObj bsonData = bson::BSONObj(&(msg->data[0]));
+        std::cout<<bsonData.toString()<<std::endl;
+    }
+    return msg->returnCode;
+}
+
+int QueryCommand::execute(ossSocket &socket, std::vector<std::string> &argVec) {
+    int rc = EDB_OK;
+    if (argVec.size() != 1) {
+        return EDB_DELETE_INVALID_ARGUMENT;
+    }
+    _jsonString = argVec[0];
+    if (!socket.isConnected()) {
+        return EDB_SOCKET_NOT_CONNECT;
+    }
+    if ((rc = sendMsg(socket, msgBuildDelete)) < 0) {
         return rc;
     }
 

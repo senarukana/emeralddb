@@ -55,6 +55,20 @@ protected:
    int handleReply();
 };
 
+class DeleteCommand : public ICommand {
+public:
+   int execute(ossSocket &socket, std::vector<std::string> &argVec);
+protected:
+   int handleReply();
+};
+
+class QueryCommand : public ICommand {
+public:
+   int execute(ossSocket &socket, std::vector<std::string> &argVec);
+protected:
+   int handleReply();
+};
+
 class ConnectCommand : public ICommand {
 public:
    int execute(ossSocket &socket, std::vector<std::string> &argVec);

@@ -30,6 +30,7 @@ public:
     void setAddress(const char *pHostName, unsigned int port);
     //create a listening socket
     _ossSocket();
+    _ossSocket(const char *svcName, int timeout = 0);
     _ossSocket(unsigned int port, int timeout = 0);
     //create a connection socket
     _ossSocket(const char *pHostname, unsigned int port, int timeout = 0);

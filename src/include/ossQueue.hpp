@@ -27,7 +27,7 @@ template<typename Data>
 class ossQueue {
 private:
    std::queue<Data>  _queue;
-   boost:mutex       _mutex;
+   boost::mutex       _mutex;
    boost::condition_variable _cond;
 public:
    unsigned int size() {
@@ -43,7 +43,12 @@ public:
    }
 
    bool empty() const {
-      boost::mutex::scoped_lock locK(_mutex);
+      boost::mutex::scoped_lock lock(_mutex);
+      return _queue.empty();
+   }
+
+   bool try_pop(Data &value) const {
+      boost::mutex::scoped_lock lock(_mutex);
       if (_queue.empty()) {
          return false;
       }
@@ -53,7 +58,7 @@ public:
    }
 
    void wait_and_pop(Data &value) {
-      boost:mutex::scoped_lock lock(_mutex);
+      boost::mutex::scoped_lock lock(_mutex);
       while(_queue.empty()) {
          _cond.wait(lock);
       }
@@ -75,4 +80,6 @@ public:
       _queue.pop();
       return true;
    }
-}
+};
+
+#endif

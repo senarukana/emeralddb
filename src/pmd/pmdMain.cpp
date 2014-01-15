@@ -1,7 +1,24 @@
+/*******************************************************************************
+   Copyright (C) 2013 SequoiaDB Software Inc.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Affero General Public License, version 3,
+   as published by the Free Software Foundation.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+   GNU Affero General Public License for more details.
+
+   You should have received a copy of the GNU Affero General Public License
+   along with this program. If not, see <http://www.gnu.org/license/>.
+*******************************************************************************/
 #include "core.hpp"
 #include "pd.hpp"
 #include "pmd.hpp"
 #include "pmdOptions.hpp"
+#include "pmdEDUMgr.hpp"
+#include "pmdEDU.hpp"
 
 static int pmdResolveArguments(int argc, char **argv) {
     int rc = EDB_OK;
@@ -120,10 +137,11 @@ static void pmdSetupSignalHandler() {
     }
 }
  
-int pmdTcpListenerEntryPoint();
 int main(int argc, char **argv) {
     int rc = EDB_OK;
     EDB_KRCB *krcb = pmdGetKRCB();
+    pmdEDUMgr *mgr = krcb->getEDUMgr();
+    EDUID mainEDUID = PMD_INVALID_EDUID;
 
     pmdSetupSignalHandler();
 
@@ -131,10 +149,13 @@ int main(int argc, char **argv) {
     if (rc == EDB_PMD_HELP_ONLY) {
         goto done;
     }
+    PD_RC_CHECK(rc, PDERROR, "Failed to resolve argument, rc = %d",rc);
 
-	pmdTcpListenerEntryPoint();
+    rc = mgr->startEDU(EDU_TYPE_TCPLISTENER, NULL, &mainEDUID);
+    PD_RC_CHECK(rc, PDERROR, "Failed to start the tcplistener edu, rc = %d", rc);
+    PD_LOG(PDEVENT, "TCPlistener EDU is %lld", mainEDUID);
     while (EDB_IS_DB_UP) {
-        sleep(1);
+      sleep(1);
     }
 done:
     return rc;

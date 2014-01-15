@@ -25,7 +25,7 @@ private:
     bool _isQuiesced;
     bool _isDestroyed;
 public:
-    pmdEDUMgr();
+    pmdEDUMgr():
     _EDUID(1),
     _isQuiesced(false),
     _isDestroyed(false) {}
@@ -61,7 +61,7 @@ public:
         return num ;
     }
 
-    void regSystemEDU(EDU_TYPES edu, EDUID eduID) {
+    bool isSystemEDU(EDUID eduID) {
         bool isSys = false;
         _mutex.get_shared();
         isSys = _isSystemEDU(eduID);
@@ -82,7 +82,7 @@ public:
     }
 
     static bool isPoolable (EDU_TYPES type) {
-        return ( EDU_TYPE_AGENT == type ) ;
+        return (EDU_TYPE_AGENT == type) ;
     }
 
 private:
@@ -109,16 +109,16 @@ private:
    }
 public:
     // move an waitting/creating EDU to running status
-    int activeEDU(EDUID eduID);
+    int activateEDU(EDUID eduID);
     // move an running EDU to waitting status
     int waitEDU(EDUID eduID);
     // start an edu from the idle queue or create a new one
-    int startEDU(EDUID eduID);
+    int startEDU(EDU_TYPES type, void *arg, EDUID *eduid);
     // move an waitting/creating EDU to idle status or destory this edu
     int returnEDU(EDUID eduID, bool force, bool* destroyed);
     // post a message to EDU
     int postEDUPost(EDUID eduID, pmdEDUEventTypes type,
-                    bool release = false, void *pData = false);
+                    bool release = false, void *pData = NULL);
 
     int waitEDUPost(EDUID eduID, pmdEDUEvent& event,
                     long long millsecond);

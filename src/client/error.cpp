@@ -6,6 +6,7 @@ void getError(int code) {
     switch(code) {
         case EDB_OK:
             std::cout<<"+OK"<<std::endl;
+            break;
         case EDB_IO:
             std::cout<<"io error is occurred"<<std::endl;
             break;
