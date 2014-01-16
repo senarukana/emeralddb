@@ -82,4 +82,6 @@ int msgExtractDelete(char *pBuffer, bson::BSONObj &key);
 
 int msgBuildQuery(char **ppBuffer, int *pBufferSize, bson::BSONObj &key);
 
+int msgExtractQuery(char *pBuffer, bson::BSONObj &key);
+
 #endif

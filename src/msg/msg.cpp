@@ -27,6 +27,7 @@ static int msgCheckBuffer(char **ppBuffer, int *pBufferSize, int length) {
          rc = EDB_INVALIDARG;
          goto error;
       }
+      PD_LOG(PDTRACE, "Realloc buffer size %d", *pBufferSize);
       *ppBuffer = (char *)realloc(*ppBuffer, sizeof(char)*length);
       if (!*ppBuffer) {
          PD_LOG(PDERROR, "Failed to allocate %d bytes buffer", length);
@@ -115,6 +116,7 @@ int msgBuildReply(char **ppBuffer, int *pBufferSize,
    if(objReturn) {
       size += objReturn->objsize();
    }
+   // PD_LOG(PDERROR, "pd buffer size %d, %d", *pBufferSize, size);
    rc = msgCheckBuffer(ppBuffer, pBufferSize, size);
    PD_RC_CHECK(rc, PDERROR, "Failed to realloc buffer for %d bytes, rc = %d",
                size , rc);
@@ -124,6 +126,7 @@ int msgBuildReply(char **ppBuffer, int *pBufferSize,
    pReply->header.opCode = OP_REPLY;
    pReply->returnCode = returnCode;
    pReply->numReturn = (objReturn)?1:0;
+   // PD_LOG(PDERROR, "ok");
    //bson object
    if (objReturn) {
       memcpy(&pReply->data[0], objReturn->objdata(), objReturn->objsize());

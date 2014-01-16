@@ -151,7 +151,7 @@ edb-ossFileOp.o: oss/ossFileOp.cpp include/core.hpp /usr/include/unistd.h \
  /usr/include/c++/4.8/bits/basic_ios.tcc \
  /usr/include/c++/4.8/bits/ostream.tcc /usr/include/c++/4.8/istream \
  /usr/include/c++/4.8/bits/istream.tcc include/ossFileOp.hpp \
- include/core.hpp
+ include/core.hpp include/pd.hpp
 
 include/core.hpp:
 
@@ -556,3 +556,5 @@ include/core.hpp:
 include/ossFileOp.hpp:
 
 include/core.hpp:
+
+include/pd.hpp:

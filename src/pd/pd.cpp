@@ -40,7 +40,11 @@ const static char *PD_LOG_HEADER_FORMAT="%04d-%02d-%02d-%02d.%02d.%02d.%06d\
     Level:%s" OSS_NEWLINE "PID:%-41dTID:%d" OSS_NEWLINE "Function:%-36sLine:%d"\
     OSS_NEWLINE "File:%s" OSS_NEWLINE"Message: " OSS_NEWLINE"%s" OSS_NEWLINE OSS_NEWLINE;
 
-PDLEVEL _curPDLevel = PD_DFT_DIAGLEVEL ;
+
+PDLEVEL _curPDLevel = PDTRACE ;
+PDLEVEL _curPDFileLevel = PDEVENT;
+
+
 char _pdDiagLogPath[OSS_MAX_PATHSIZE+1] = {0} ;
 
 ossXLatch _pdLogMutex;
@@ -130,11 +134,13 @@ void pdLog(PDLEVEL level, const char *func, const char *file, unsigned int line,
         userInfo);
     printf("%s" OSS_NEWLINE, sysInfo);
     if (_pdDiagLogPath[0] != '\0') {
-        rc = _pdLogFileWrite(sysInfo);
-        if (rc){
-            printf ("Failed to write into log file, errno = %d" OSS_NEWLINE, rc ) ;
-            printf ("%s" OSS_NEWLINE, sysInfo) ;
-            abort();
+        if (level <= _curPDFileLevel) {
+            rc = _pdLogFileWrite(sysInfo);
+            if (rc){
+                printf ("Failed to write into log file, errno = %d" OSS_NEWLINE, rc ) ;
+                printf ("%s" OSS_NEWLINE, sysInfo) ;
+                abort();
+            }
         }
     }
     return;

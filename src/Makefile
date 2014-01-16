@@ -67,12 +67,13 @@ am_emeralddb_OBJECTS = emeralddb-pmdMain.$(OBJEXT) \
 	emeralddb-pmdAgent.$(OBJEXT) emeralddb-pmd.$(OBJEXT) \
 	emeralddb-pmdOptions.$(OBJEXT) emeralddb-pmdCommand.$(OBJEXT) \
 	emeralddb-pmdEDUMgr.$(OBJEXT) emeralddb-pmdEDU.$(OBJEXT) \
-	emeralddb-bsonobj.$(OBJEXT) emeralddb-json.$(OBJEXT) \
-	emeralddb-oid.$(OBJEXT) emeralddb-base64.$(OBJEXT) \
-	emeralddb-md5.$(OBJEXT) emeralddb-nonce.$(OBJEXT) \
-	emeralddb-ossSocket.$(OBJEXT) emeralddb-ossFileOp.$(OBJEXT) \
-	emeralddb-ossMmapFile.$(OBJEXT) emeralddb-dms.$(OBJEXT) \
-	emeralddb-pd.$(OBJEXT) emeralddb-msg.$(OBJEXT)
+	emeralddb-rtn.$(OBJEXT) emeralddb-bsonobj.$(OBJEXT) \
+	emeralddb-json.$(OBJEXT) emeralddb-oid.$(OBJEXT) \
+	emeralddb-base64.$(OBJEXT) emeralddb-md5.$(OBJEXT) \
+	emeralddb-nonce.$(OBJEXT) emeralddb-ossSocket.$(OBJEXT) \
+	emeralddb-ossFileOp.$(OBJEXT) emeralddb-ossMmapFile.$(OBJEXT) \
+	emeralddb-dms.$(OBJEXT) emeralddb-pd.$(OBJEXT) \
+	emeralddb-msg.$(OBJEXT)
 emeralddb_OBJECTS = $(am_emeralddb_OBJECTS)
 emeralddb_DEPENDENCIES =
 emeralddb_LINK = $(CXXLD) $(emeralddb_CXXFLAGS) $(CXXFLAGS) \
@@ -207,7 +208,7 @@ AUTOMAKE_OPTIONS = foreign
 emeralddb_SOURCES = \
 	pmd/pmdMain.cpp pmd/pmdTcpListener.cpp pmd/pmdAgent.cpp pmd/pmd.cpp \
     pmd/pmdOptions.cpp pmd/pmdCommand.cpp \
-    pmd/pmdEDUMgr.cpp pmd/pmdEDU.cpp \
+    pmd/pmdEDUMgr.cpp pmd/pmdEDU.cpp rtn/rtn.cpp \
 	bson/src/bsonobj.cpp bson/src/util/json.cpp bson/src/oid.cpp \
 	bson/src/lib/base64.cpp bson/src/lib/md5.cpp bson/src/lib/nonce.cpp \
     oss/ossSocket.cpp oss/ossFileOp.cpp oss/ossMmapFile.cpp dms/dms.cpp\
@@ -220,10 +221,10 @@ edb_SOURCES = \
     oss/ossSocket.cpp oss/ossFileOp.cpp \
     pd/pd.cpp msg/msg.cpp
 
-emeralddb_CXXFLAGS = -I../boost -Ibson/src -Iinclude -D_FILE_OFFSET_BITS=64 -ggdb -Wall -O0 -std=c++11
+emeralddb_CXXFLAGS = -I../boost -Ibson/src -Iinclude -D_FILE_OFFSET_BITS=64 -ggdb -Wall -O0 -gstabs+ -std=c++11
 emeralddb_LDADD = -lpthread -lm -lboost_system -lboost_thread -lboost_program_options -lrt
 emeralddb_LDFLAGS = -fPIC -rdynamic -L../boost/stage/lib -pthread
-edb_CXXFLAGS = -I../boost -Ibson/src -Iinclude -D_FILE_OFFSET_BITS=64 -ggdb -Wall -O0 -std=c++11
+edb_CXXFLAGS = -I../boost -Ibson/src -Iinclude -D_FILE_OFFSET_BITS=64 -ggdb -Wall -O0 -gstabs+ -std=c++11
 edb_LDADD = -lm -lboost_system -lboost_thread -lrt
 edb_LDFLAGS = -fPIC -rdynamic -L../boost/stage/lib
 all: config.h
@@ -364,6 +365,7 @@ include ./$(DEPDIR)/emeralddb-pmdEDUMgr.Po
 include ./$(DEPDIR)/emeralddb-pmdMain.Po
 include ./$(DEPDIR)/emeralddb-pmdOptions.Po
 include ./$(DEPDIR)/emeralddb-pmdTcpListener.Po
+include ./$(DEPDIR)/emeralddb-rtn.Po
 
 .cpp.o:
 	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -686,6 +688,20 @@ emeralddb-pmdEDU.obj: pmd/pmdEDU.cpp
 #	source='pmd/pmdEDU.cpp' object='emeralddb-pmdEDU.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-pmdEDU.obj `if test -f 'pmd/pmdEDU.cpp'; then $(CYGPATH_W) 'pmd/pmdEDU.cpp'; else $(CYGPATH_W) '$(srcdir)/pmd/pmdEDU.cpp'; fi`
+
+emeralddb-rtn.o: rtn/rtn.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-rtn.o -MD -MP -MF $(DEPDIR)/emeralddb-rtn.Tpo -c -o emeralddb-rtn.o `test -f 'rtn/rtn.cpp' || echo '$(srcdir)/'`rtn/rtn.cpp
+	$(am__mv) $(DEPDIR)/emeralddb-rtn.Tpo $(DEPDIR)/emeralddb-rtn.Po
+#	source='rtn/rtn.cpp' object='emeralddb-rtn.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-rtn.o `test -f 'rtn/rtn.cpp' || echo '$(srcdir)/'`rtn/rtn.cpp
+
+emeralddb-rtn.obj: rtn/rtn.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-rtn.obj -MD -MP -MF $(DEPDIR)/emeralddb-rtn.Tpo -c -o emeralddb-rtn.obj `if test -f 'rtn/rtn.cpp'; then $(CYGPATH_W) 'rtn/rtn.cpp'; else $(CYGPATH_W) '$(srcdir)/rtn/rtn.cpp'; fi`
+	$(am__mv) $(DEPDIR)/emeralddb-rtn.Tpo $(DEPDIR)/emeralddb-rtn.Po
+#	source='rtn/rtn.cpp' object='emeralddb-rtn.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-rtn.obj `if test -f 'rtn/rtn.cpp'; then $(CYGPATH_W) 'rtn/rtn.cpp'; else $(CYGPATH_W) '$(srcdir)/rtn/rtn.cpp'; fi`
 
 emeralddb-bsonobj.o: bson/src/bsonobj.cpp
 	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-bsonobj.o -MD -MP -MF $(DEPDIR)/emeralddb-bsonobj.Tpo -c -o emeralddb-bsonobj.o `test -f 'bson/src/bsonobj.cpp' || echo '$(srcdir)/'`bson/src/bsonobj.cpp

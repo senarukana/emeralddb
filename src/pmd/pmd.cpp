@@ -30,7 +30,6 @@ int EDB_KRCB::init (pmdOptions *options)
    setMaxPool(options->getMaxPool()) ;
    _commandMap.init();
    initEDUFunctionMap();
-
-   return 0;
+   return _rtnMgr.init();
 }
 

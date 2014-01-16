@@ -706,8 +706,8 @@ emeralddb-pmdEDU.o: pmd/pmdEDU.cpp include/core.hpp /usr/include/unistd.h \
  ../boost/boost/smart_ptr/scoped_array.hpp \
  ../boost/boost/thread/future_error_code.hpp include/ossSocket.hpp \
  include/pmdEDUEvent.hpp include/pmdEDUMgr.hpp include/pmdEDU.hpp \
- include/ossLatch.hpp include/pmd.hpp include/pmdCommand.hpp \
- bson/src/bson.h bson/src/bsonassert.h ../boost/boost/utility.hpp \
+ include/ossLatch.hpp include/pmd.hpp include/rtn.hpp bson/src/bson.h \
+ bson/src/bsonassert.h ../boost/boost/utility.hpp \
  ../boost/boost/utility/base_from_member.hpp \
  ../boost/boost/utility/binary.hpp \
  ../boost/boost/preprocessor/control/deduce_d.hpp \
@@ -927,8 +927,10 @@ emeralddb-pmdEDU.o: pmd/pmdEDU.cpp include/core.hpp /usr/include/unistd.h \
  ../boost/boost/date_time/posix_time/posix_time_io.hpp \
  ../boost/boost/date_time/time_facet.hpp \
  ../boost/boost/algorithm/string/erase.hpp \
- ../boost/boost/date_time/posix_time/time_parsers.hpp \
- include/pmdEDUMgr.hpp include/pd.hpp
+ ../boost/boost/date_time/posix_time/time_parsers.hpp include/dms.hpp \
+ include/ossMmapFile.hpp include/ossFileOp.hpp include/dmsRecord.hpp \
+ include/pmdCommand.hpp include/pmdEDUMgr.hpp include/pd.hpp \
+ include/pd.hpp
 
 include/core.hpp:
 
@@ -2630,7 +2632,7 @@ include/ossLatch.hpp:
 
 include/pmd.hpp:
 
-include/pmdCommand.hpp:
+include/rtn.hpp:
 
 bson/src/bson.h:
 
@@ -3172,6 +3174,18 @@ bson/src/util/time_support.h:
 
 ../boost/boost/date_time/posix_time/time_parsers.hpp:
 
+include/dms.hpp:
+
+include/ossMmapFile.hpp:
+
+include/ossFileOp.hpp:
+
+include/dmsRecord.hpp:
+
+include/pmdCommand.hpp:
+
 include/pmdEDUMgr.hpp:
+
+include/pd.hpp:
 
 include/pd.hpp:

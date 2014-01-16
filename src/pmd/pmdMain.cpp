@@ -59,9 +59,9 @@ static _signalInfo signalHandleMap [] = {
    { "SIGABRT", 1 },    //6
    { "SIGBUS", 1 },     //7
    { "SIGFPE", 1 },     //8
-   { "SIGKILL", 1 },    //9
+   { "SIGKILL", 0 },    //9
    { "SIGUSR1", 0 },    //10
-   { "SIGSEGV", 1 },    //11
+   { "SIGSEGV", 0 },    //11
    { "SIGUSR2", 0 },    //12
    { "SIGPIPE", 1 },    //13
    { "SIGALRM", 0 },    //14

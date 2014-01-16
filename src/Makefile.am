@@ -3,7 +3,7 @@ bin_PROGRAMS=emeralddb edb
 emeralddb_SOURCES=\
 	pmd/pmdMain.cpp pmd/pmdTcpListener.cpp pmd/pmdAgent.cpp pmd/pmd.cpp \
     pmd/pmdOptions.cpp pmd/pmdCommand.cpp \
-    pmd/pmdEDUMgr.cpp pmd/pmdEDU.cpp \
+    pmd/pmdEDUMgr.cpp pmd/pmdEDU.cpp rtn/rtn.cpp \
 	bson/src/bsonobj.cpp bson/src/util/json.cpp bson/src/oid.cpp \
 	bson/src/lib/base64.cpp bson/src/lib/md5.cpp bson/src/lib/nonce.cpp \
     oss/ossSocket.cpp oss/ossFileOp.cpp oss/ossMmapFile.cpp dms/dms.cpp\
@@ -17,10 +17,10 @@ edb_SOURCES=\
     pd/pd.cpp msg/msg.cpp
 
 
-emeralddb_CXXFLAGS=-I../boost -Ibson/src -Iinclude -D_FILE_OFFSET_BITS=64 -ggdb -Wall -O0 -std=c++11
+emeralddb_CXXFLAGS=-I../boost -Ibson/src -Iinclude -D_FILE_OFFSET_BITS=64 -ggdb -Wall -O0 -gstabs+ -std=c++11
 emeralddb_LDADD=-lpthread -lm -lboost_system -lboost_thread -lboost_program_options -lrt
 emeralddb_LDFLAGS=-fPIC -rdynamic -L../boost/stage/lib -pthread
 
-edb_CXXFLAGS=-I../boost -Ibson/src -Iinclude -D_FILE_OFFSET_BITS=64 -ggdb -Wall -O0 -std=c++11
+edb_CXXFLAGS=-I../boost -Ibson/src -Iinclude -D_FILE_OFFSET_BITS=64 -ggdb -Wall -O0 -gstabs+ -std=c++11
 edb_LDADD=-lm -lboost_system -lboost_thread -lrt
 edb_LDFLAGS=-fPIC -rdynamic -L../boost/stage/lib

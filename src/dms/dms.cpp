@@ -20,15 +20,200 @@ dmsFile::~dmsFile() {
 }
 
 int dmsFile::insert(BSONObj &record, BSONObj &outRecord, dmsRecordID &rid) {
-    return EDB_OK;
+    int rc                  = EDB_OK;
+    PAGEID pageID           = 0;
+    char *page              = nullptr;
+    dmsPageHeader *pageHeader   = nullptr;
+    int recordSize          = 0;
+    SLOTOFF offsetData      = 0;
+    dmsRecord recordHeader;
+
+    recordSize = record.objsize(); 
+    // when we attempt to insert record, first we have to verify it include _id field
+    // sanity check for recordSize
+    if ((unsigned int)recordSize > DMS_MAX_RECORD) {
+        rc = EDB_INVALIDARG;
+        PD_LOG(PDERROR, "record too big, size is %d", recordSize);
+    }
+
+    /******************** CRITICAL SECTION ******************/
+retry:
+    _mutex.get();
+    // 1. find a page to insert the data
+    pageID = _findPage(recordSize);
+    if (pageID == DMS_INVALID_PAGEID) {
+        _mutex.release();
+
+        if (_extendMutex.try_get()) {
+            // extend the file
+            rc = _extendSegment();
+            if (rc) {
+                _extendMutex.release();
+                PD_LOG(PDERROR, "extend segment error, rc = %d", rc);
+                goto error;
+            }
+        } else {
+            // if we can't get the extendmutex, that means someone else is trying to extend
+            // so let's wait until getting the mutex, and release it and try again;
+            _extendMutex.get();
+        }
+        _extendMutex.release();
+        goto retry;
+    }
+    
+    // 2. get the data of the page
+    page = pageToOffset(pageID);
+    // if something wrong, let's return error
+    if (!page) {
+        rc = EDB_SYS;
+        PD_LOG(PDERROR, "Failed to find page");
+        goto error_releasemutex;
+    }
+
+    // set the pageHeader
+    pageHeader = (dmsPageHeader*)page;
+    // sanity check for pageHeader
+    if (memcmp(pageHeader->_magic, DMS_PAGE_MAGIC, DMS_PAGE_MAGIC_LEN) != 0) {
+        rc = EDB_SYS;
+        PD_LOG(PDERROR, "Invalid page pageHeader");
+        goto error_releasemutex;
+    }
+    // 3. check if we need to reorganize the page
+    if (pageHeader->_freeSpace > (pageHeader->_freeOffset - pageHeader->_slotOffset) &&
+        // if there is no free space excluding holes
+        (pageHeader->_slotOffset + recordSize + sizeof(dmsRecord) + sizeof(SLOTID)) > pageHeader->_freeOffset) {
+        // recover empty hole from page
+        _recoverSpace(page);
+    }
+    // sanity check for freespace
+    if ((pageHeader->_freeSpace < recordSize + sizeof(dmsRecord) + sizeof(SLOTID)) ||
+        (pageHeader->_freeOffset - pageHeader->_slotOffset <
+            recordSize + sizeof(dmsRecord) + sizeof(SLOTID))) {
+        rc = EDB_SYS;
+        PD_LOG(PDERROR, "There is no free space for insert");
+        goto error_releasemutex;
+    }
+    // 4. update the page
+    offsetData = pageHeader->_freeOffset - sizeof(dmsRecord) - recordSize;
+    recordHeader._size = recordSize;
+    recordHeader._flag = DMS_RECORD_FLAG_NORMAL;
+    // append a slot
+    *(SLOTOFF*)(page + pageHeader->_slotOffset) = offsetData;
+    // copy the record pageHeader
+    memcpy(page + offsetData, (void *)&recordHeader, sizeof(dmsRecord));
+    // copy the record data
+    memcpy(page + offsetData + sizeof(dmsRecord), record.objdata(), recordSize);
+    outRecord = BSONObj(page + offsetData + sizeof(dmsRecord));
+    rid._pageID = pageID;
+    rid._slotID = pageHeader->_numSlots;
+    // 5. update the metadata in page and db
+    // modify metadata in page
+    pageHeader->_numSlots++;
+    pageHeader->_slotOffset += sizeof(SLOTID);
+    pageHeader->_freeOffset = offsetData;
+    // modify database metadata
+    _updateFreeSpace(pageHeader, -(recordSize+sizeof(SLOTID)+sizeof(dmsRecord)), pageID);
+    // release lock for database
+    _mutex.release();
+    /******************** END OF CRITICAL SECTION ******************/
+done:
+    return rc;
+error_releasemutex:
+    _mutex.release();
+    goto done;
+error:
+    goto done;     
 }
 
 int dmsFile::remove(dmsRecordID &rid) {
-    return EDB_OK;
+    int rc                      = EDB_OK;
+    char *page                  = NULL;
+    dmsPageHeader *pageHeader   = nullptr;
+    dmsRecord *recordHeader     = nullptr;
+    SLOTOFF slot                = 0;
+
+    page = pageToOffset(rid._pageID);
+    if (!page) {
+        rc = EDB_SYS;
+        PD_LOG(PDERROR, "Failed to find the page for %u:%u",
+            rid._pageID, rid._slotID);
+        goto done;
+    }
+    /*****************CRITICAL SECTION*****************/
+    _mutex.get();
+    rc = _searchSlot(page, rid, slot);
+    if (rc) {
+        PD_LOG(PDERROR, "Failed to search slot, rc = %d", rc);
+        goto error;
+    }
+    // check if data has already been removed
+    if (slot == DMS_SLOT_EMPTY) {
+        rc = EDB_SYS;
+        PD_LOG(PDERROR, "The record is dropped");
+        goto error;
+    }
+
+    // set the pageHeader
+    pageHeader = (dmsPageHeader*)page;
+    // set the slot to empty
+    *(SLOTOFF*)(page + sizeof(dmsPageHeader) +
+                rid._slotID * sizeof(SLOTOFF)) = DMS_SLOT_EMPTY;
+    // set the record header
+    recordHeader = (dmsRecord*)(page + slot);
+    recordHeader->_flag = DMS_RECORD_FLAG_DROPPED;
+    // update database metadata
+    _updateFreeSpace(pageHeader, recordHeader->_size, rid._pageID);
+    _mutex.release();
+    /*****************END OF CRITICAL SECTION*****************/
+done:
+    return rc;
+error:
+    _mutex.release();
+    goto done;
 }
 
-int dmsFile::find(dmsRecord &rid, BSONObj &result) {
-    return EDB_OK;
+int dmsFile::find(dmsRecordID &rid, BSONObj &result) {
+    int rc          = EDB_OK;
+    SLOTOFF slot    = 0;
+    char *page      = NULL;
+    dmsRecord *recordHeader = nullptr;
+
+    page = pageToOffset(rid._pageID);
+    if (!page) {
+        rc = EDB_SYS;
+        PD_LOG(PDERROR, " Failed to find the page");
+        goto done;
+    }
+    /*****************CRITICAL SECTION*****************/
+    _mutex.get_shared();
+    rc = _searchSlot(page, rid, slot);
+    if (rc) {
+        rc = EDB_SYS;
+        PD_LOG(PDERROR, "Failed to search slot, rc = %d", rc);
+        goto error;
+    }
+
+    // if slot is empty, this should not happen
+    if (slot == DMS_SLOT_EMPTY) {
+        rc = EDB_SYS;
+        PD_LOG(PDERROR, "The record has already dropped");
+        goto error;
+    }
+    // get the recordHeader
+    recordHeader = (dmsRecord*)(page + slot);
+    // sanity check for record
+    if (recordHeader->_flag == DMS_RECORD_FLAG_DROPPED) {
+        rc = EDB_SYS;
+        PD_LOG(PDERROR, "The record has already dropped");
+        goto error;
+    }
+    result = BSONObj(page + slot + sizeof(dmsRecord)).copy();
+done:
+    _mutex.release_shared();
+    return rc;
+error:
+    goto done;
+    /*****************END OF CRITICAL SECTION*****************/
 }
 
 void dmsFile::_updateFreeSpace(dmsPageHeader *header, int changeSize,
@@ -77,7 +262,6 @@ getfilesize:
         PD_RC_CHECK(rc, PDERROR, "Failed to initialize file, rc = %d",rc);
         goto getfilesize;
     }
-
     // load data
     rc = _loadData();
     PD_RC_CHECK(rc, PDERROR, "Failed to load data, rc = %d", rc);
@@ -96,10 +280,10 @@ int dmsFile::_extendSegment() {
     dmsPageHeader pageHeader;
     offsetType offset = 0;
 
-    // first let's get the size of file before extend
+    // 1. let's get the size of file before extend
     rc = _fileOp.getSize(&offset);
     PD_RC_CHECK(rc, PDERROR, "Failed to get file size, rc = %d", rc);
-    // extend the file
+    // 2. extend the file
     rc = _extendFile(DMS_FILE_SEGMENT_SIZE);
     PD_RC_CHECK(rc, PDERROR, "Failed to extend segment rc = %d", rc);
 
@@ -107,19 +291,20 @@ int dmsFile::_extendSegment() {
     rc = map(offset, DMS_FILE_SEGMENT_SIZE, (void **)&data);
     PD_RC_CHECK(rc, PDERROR, "Failed to map file, rc = %d", rc);
 
-    // create page header structure and we are going to copy to each page
+    // 3. create page header structure and we are going to copy to each page
+    strcpy(pageHeader._magic, DMS_PAGE_MAGIC);
     pageHeader._size = DMS_PAGE_SIZE;
     pageHeader._flag = DMS_PAGE_FLAG_NORMAL;
     pageHeader._numSlots = 0;
     pageHeader._slotOffset = sizeof(dmsPageHeader);
     pageHeader._freeSpace = DMS_PAGE_SIZE - sizeof(dmsPageHeader);
     pageHeader._freeOffset = DMS_PAGE_SIZE;
-    // copy header to each page
+    // 4. copy header to each page
     for (int i = 0; i < DMS_FILE_SEGMENT_SIZE; i+=DMS_PAGE_SIZE ) {
         memcpy(data+i, (char*)&pageHeader, sizeof(dmsPageHeader));
     }
 
-    // free space handling
+    // 5. free space handling
     freeMapSize = _freeSpaceMap.size();
     // insert into free space map
     for (int i = 0; i < DMS_PAGES_PER_SEGMENT; i++) {
@@ -127,7 +312,7 @@ int dmsFile::_extendSegment() {
             (pageHeader._freeSpace, i+freeMapSize));
     }
 
-    // push the segment into body list
+    // 6. push the segment into body list
     _body.push_back(data);
     _header->_size  += DMS_PAGES_PER_SEGMENT;
 done:
@@ -173,17 +358,33 @@ PAGEID dmsFile::_findPage(size_t requiredSize) {
 // Should get the lock before
 int dmsFile::_extendFile(int size) {
     int rc = EDB_OK;
-    offsetType fileSize;
+    char temp[DMS_EXTEND_SIZE] = {0};
+    memset(temp, 0, DMS_EXTEND_SIZE);
+    if (size % DMS_EXTEND_SIZE != 0) {
+        rc = EDB_SYS;
+        PD_LOG(PDERROR, "Invalid extend size, must be mulitple of %d", DMS_EXTEND_SIZE);
+        goto error;
+    }
+    // write file
+    for (int i = 0; i < size; i+= DMS_EXTEND_SIZE) {
+        _fileOp.seekToEnd();
+        rc = _fileOp.Write(temp, DMS_EXTEND_SIZE);
+        PD_RC_CHECK(rc, PDERROR, "Failed to write to file, rc = %d", rc);
+    }
 
-    // 1. get file size
-    rc = _fileOp.getSize(&fileSize);
-    PD_RC_CHECK(rc, PDERROR, 
-        "Failed to get file size, rc = %d", rc);
+    // offsetType fileSize;
 
-    // 2. seek to the specified size
-    _fileOp.seekToOffset(fileSize + size);
-    PD_RC_CHECK(rc, PDERROR,
-        "Failed to seek to offset");
+    // // 1. get file size
+    // rc = _fileOp.getSize(&fileSize);
+    // PD_RC_CHECK(rc, PDERROR, 
+    //     "Failed to get file size, rc = %d", rc);
+
+    // // 2. seek to the specified size
+    // rc = _fileOp.seekToOffset(fileSize + size);
+    // if (rc == -1) {
+    //     PD_LOG(PDERROR,
+    //         "Failed to seek to offset, rc = %d", rc);
+    // }
 done:
     return rc;
 error:
@@ -258,7 +459,7 @@ int dmsFile::_loadData() {
             for (int j = 0; j < DMS_PAGES_PER_SEGMENT; j++) {
                 pageHeader = (dmsPageHeader *)(data + j * DMS_PAGE_SIZE);
                 _freeSpaceMap.insert(std::pair<unsigned int, PAGEID>(
-                    pageHeader->_freeSpace, j));
+                    pageHeader->_freeSpace, j + (DMS_PAGES_PER_SEGMENT) * i));
                 slotID = (SLOTID) pageHeader->_numSlots;
                 recordID._pageID = (PAGEID)j;
                 // for each record in the page, let's insert into index

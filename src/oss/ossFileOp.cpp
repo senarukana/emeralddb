@@ -15,6 +15,7 @@
 *******************************************************************************/
 #include "core.hpp"
 #include "ossFileOp.hpp"
+#include "pd.hpp"
 
 ossFileOp::ossFileOp() {
    _fileHandle = OSS_INVALID_HANDLE_FD_VALUE;
@@ -151,14 +152,24 @@ offsetType ossFileOp::getCurrentOffset () const {
    return oss_lseek( _fileHandle, 0, SEEK_CUR ) ;
 }
 
-void ossFileOp::seekToEnd(void) {
-   oss_lseek( _fileHandle, 0, SEEK_END ) ;
+int ossFileOp::seekToEnd(void) {
+   int rc = EDB_OK; 
+   rc = oss_lseek( _fileHandle, 0, SEEK_END ) ;
+   if (rc == -1) {
+      PD_LOG(PDERROR, "seek file error, errno = %d", errno);
+   }
+   return rc;
 }
 
-void ossFileOp::seekToOffset(offsetType offset) {
+int ossFileOp::seekToOffset(offsetType offset) {
+   int rc = EDB_OK; 
    if ((oss_off_t) -1 != offset){
-      oss_lseek( _fileHandle, offset, SEEK_SET) ;
+      rc = oss_lseek( _fileHandle, offset, SEEK_SET) ;
+      if (rc == -1) {
+         PD_LOG(PDERROR, "seek file error, errno = %d", errno);
+      }
    }
+   return rc;
 }
 
 void ossFileOp::setFileHandle(handleType handle) {

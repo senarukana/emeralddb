@@ -50,8 +50,7 @@ static int pmdProcessAgentRequest(char *pRecvBuffer,
         rc = EDB_INVALIDARG;
         goto error;
     }
-    rc = commandFunc(pRecvBuffer, packetSize, ppResultBuffer, pResultBufferSize,
-             disconnect, cb, &retObj);
+    rc = commandFunc(pRecvBuffer, packetSize, cb, &retObj);
     if (rc) {
         goto error;
     }
@@ -64,13 +63,14 @@ done:
             rc = msgBuildReply(ppResultBuffer,
                         pResultBufferSize,
                         rc, &retObj);
+            break;
         default:
             rc = msgBuildReply(ppResultBuffer,
                         pResultBufferSize,
                         rc, NULL);
         }
-        return rc;
     }
+    return rc;
 error:
     switch(rc) {
     case EDB_INVALIDARG: 
@@ -111,6 +111,12 @@ int pmdAgentEntryPoint(pmdEDUCB *cb, void *arg) {
     if((pRecvBuffer = (char *)malloc(sizeof(char) * recvBufferSize)) == NULL) {
         rc = EDB_OOM;
         PD_LOG(PDERROR, "malloc pRecvBuffer error");
+        goto done;
+    }
+
+    if((pResultBuffer = (char *)malloc(sizeof(char) * resultBufferSize)) == NULL) {
+        rc = EDB_OOM;
+        PD_LOG(PDERROR, "malloc pResultBuffer error");
         goto done;
     }
 
@@ -171,7 +177,8 @@ int pmdAgentEntryPoint(pmdEDUCB *cb, void *arg) {
         }
 
         if (!disconnect) {
-            rc = pmdSend(pResultBuffer, *(int*)resultBufferSize, &socket, cb);
+            PD_LOG(PDERROR, "begin send %d", resultBufferSize);
+            rc = pmdSend(pResultBuffer, *(int*)pResultBuffer, &socket, cb);
             if (rc) {
                 if (rc == EDB_APP_FORCED) {
 

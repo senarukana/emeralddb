@@ -28,6 +28,7 @@ using namespace bson;
 void pmdCommand::init() {
     _commandMap[OP_INSERT] = pmdInsertCommand;
     _commandMap[OP_DELETE] = pmdDeleteCommand;
+    _commandMap[OP_QUERY] = pmdQueryCommand;
 }
 
 pmdCommandFunc pmdCommand::getCommand(int opCode) {
@@ -41,16 +42,13 @@ pmdCommandFunc pmdCommand::getCommand(int opCode) {
 
 int pmdInsertCommand(char *pReceiveBuffer,
                         int packetSize,
-                        char **ppResultBuffer,
-                        int *pResultBufferSize,
-                        bool *disconnect,
                         pmdEDUCB *cb,
                         BSONObj* obj) {
     int rc = EDB_OK;
     int recordNum;
     const char *pInsertToBuffer = NULL;
-
-    PD_LOG(PDTRACE, "Insert request received");
+    rtn *rtnMgr = pmdGetKRCB()->getRtnMgr();
+    PD_LOG(PDEVENT, "Insert request received");
     rc = msgExtractInsert(pReceiveBuffer, recordNum, &pInsertToBuffer);
     if (rc) {
         PD_LOG(PDERROR, "Failed to read insert packet");
@@ -62,9 +60,21 @@ int pmdInsertCommand(char *pReceiveBuffer,
         PD_LOG(PDEVENT, "Insert: insertor: %s",
             insertor.toString().c_str());
         // make suere _id is included
-        // BSONObjIterator it(insertor);
-        // BSONElement ele = *it;
-        // const char *tmp = ele.fieldName();
+        BSONObjIterator it(insertor);
+        BSONElement ele = *it;
+        const char *tmp = ele.fieldName();
+        rc = strcmp(tmp, gKeyFieldName);
+        if (rc) {
+            PD_LOG(PDERROR,
+                    "First element in inserted record is not _id");
+            rc = EDB_NO_ID;
+            goto error;
+        }
+        //insert record
+        rc = rtnMgr->rtnInsert(insertor);
+        // if (!rc) {
+
+        // }
 
     } catch(exception &e) {
         PD_LOG(PDERROR,
@@ -80,11 +90,49 @@ error:
 
 int pmdDeleteCommand(char *pReceiveBuffer,
                         int packetSize,
-                        char **ppResultBuffer,
-                        int *pResultBufferSize,
-                        bool *disconnect,
                         pmdEDUCB *cb,
                         BSONObj* obj) {
     int rc = EDB_OK;
-    return rc;
+    rtn *rtnMgr = pmdGetKRCB()->getRtnMgr();
+    BSONObj recordID;
+
+    PD_LOG(PDTRACE, "Delete request received");
+
+    rc = msgExtractDelete(pReceiveBuffer, recordID);
+    if (rc) {
+        PD_LOG(PDERROR, "Failed to read delete packet");
+        rc = EDB_INVALIDARG;
+        goto error;
+    }
+    PD_LOG(PDTRACE, "Delete condition: %s", recordID.toString().c_str());
+    rc = rtnMgr->rtnRemove(recordID);
+done:
+    return rc;    
+error:
+    goto done;
+}
+
+int pmdQueryCommand(char *pReceiveBuffer,
+                        int packetSize,
+                        pmdEDUCB *cb,
+                        BSONObj* obj) {
+    int rc = EDB_OK;
+    rtn *rtnMgr = pmdGetKRCB()->getRtnMgr();
+    BSONObj recordID;
+    BSONObj findObj;
+
+    PD_LOG(PDTRACE, "Query request received");
+
+    rc = msgExtractQuery(pReceiveBuffer, recordID);
+    if (rc) {
+        PD_LOG(PDERROR, "Failed to read query packet");
+        rc = EDB_INVALIDARG;
+        goto error;
+    }
+    PD_LOG(PDTRACE, "Query condition: %s", recordID.toString().c_str());
+    rc = rtnMgr->rtnFind(recordID,findObj);
+done:
+    return rc;    
+error:
+    goto done;
 }

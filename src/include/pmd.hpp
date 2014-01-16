@@ -18,8 +18,10 @@
 #define PMD_HPP__
 
 #include "core.hpp"
+#include "rtn.hpp"
 #include "pmdCommand.hpp"
 #include "pmdEDUMgr.hpp"
+#include "pd.hpp"
 
 enum EDB_DB_STATUS
 {
@@ -33,7 +35,7 @@ enum EDB_DB_STATUS
                            EDB_DB_PANIC    == pmdGetKRCB()->getDBStatus () )
 #define EDB_IS_DB_UP     ( !EDB_IS_DB_DOWN )
 
-#define EDB_SHUTDOWN_DB  { pmdGetKRCB()->setDBStatus(EDB_DB_SHUTDOWN); }
+#define EDB_SHUTDOWN_DB  { pmdGetKRCB()->setDBStatus(EDB_DB_SHUTDOWN); abort(); }
 
 class pmdOptions;
 
@@ -49,6 +51,7 @@ private:
 private:
    pmdCommand    _commandMap;
    pmdEDUMgr     _eduMgr;
+   rtn           _rtnMgr;
 public:
    // constructor
    EDB_KRCB ()
@@ -66,6 +69,10 @@ public:
    // get edu mgr
    pmdEDUMgr *getEDUMgr() {
       return &_eduMgr ;
+   }
+
+   rtn *getRtnMgr() {
+      return &_rtnMgr;
    }
    // get database status
    inline EDB_DB_STATUS getDBStatus ()

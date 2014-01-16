@@ -78,8 +78,8 @@ public:
    int Write(void *pBuf, size_t len);
    int fWrite(const char *fmt, ...);
    offsetType getCurrentOffset (void) const;
-   void seekToOffset(offsetType offset);
-   void seekToEnd(void);
+   int seekToOffset(offsetType offset);
+   int seekToEnd(void);
    int getSize(offsetType *const pFileSize);
    handleType getHandle(void) const {
       return _fileHandle;

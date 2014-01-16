@@ -11,7 +11,7 @@
 #define DMS_EXTEND_SIZE 65536
 // 4MB for page size
 #define DMS_PAGE_SIZE 4194304
-#define DMS_MAX_RECORD (DMS_PAGESIZE-sizeof(dmsHeader)-sizeof(dmsRecord)-sizeof(SLOTOFF))
+#define DMS_MAX_RECORD (DMS_PAGE_SIZE-sizeof(dmsHeader)-sizeof(dmsRecord)-sizeof(SLOTOFF))
 #define DMS_MAX_PAGES 262144
 typedef unsigned int SLOTOFF;
 #define DMS_INVALID_SLOTID  0xFFFFFFFF
@@ -102,7 +102,7 @@ public:
     //insert into file
     int insert(bson::BSONObj &record, bson::BSONObj &outRecord, dmsRecordID &rid);
     int remove(dmsRecordID &rid);
-    int find(dmsRecord &rid, bson::BSONObj &result);
+    int find(dmsRecordID &rid, bson::BSONObj &result);
 private:
     // create a new segment for the current file
     int _extendSegment();

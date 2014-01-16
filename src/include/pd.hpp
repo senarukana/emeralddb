@@ -23,7 +23,7 @@
 
 #define PD_LOG(level,fmt,...)       \
    do {                             \
-      if (level < _curPDLevel) {    \
+      if (level <= _curPDLevel) {    \
          pdLog(level, __func__, __FILE__, __LINE__, fmt, ##__VA_ARGS__);   \
       }                             \
    } while(0)                       \
@@ -53,9 +53,10 @@ enum PDLEVEL {
    PDTRACE
 };
 
-#define PD_DFT_DIAGLEVEL PDWARNING
+#define PD_DFT_DIAGLEVEL PDTRACE
 
 extern PDLEVEL _curPDLevel;
+extern PDLEVEL _curPDFileLevel;
 const char *getPDLevel (PDLEVEL level);
 
 void pdLog(PDLEVEL level, const char *func, const char *file,

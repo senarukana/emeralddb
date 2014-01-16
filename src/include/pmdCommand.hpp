@@ -7,9 +7,6 @@
 
 typedef int (*pmdCommandFunc)(char *pReceiveBuffer,
                         int packetSize,
-                        char **ppResultBuffer,
-                        int *pResultBufferSize,
-                        bool *disconnect,
                         pmdEDUCB *cb,
                         bson::BSONObj* obj);
 
@@ -24,18 +21,17 @@ public:
 
 int pmdInsertCommand(char *pReceiveBuffer,
                         int packetSize,
-                        char **ppResultBuffer,
-                        int *pResultBufferSize,
-                        bool *disconnect,
                         pmdEDUCB *cb,
                         bson::BSONObj* obj);
 
 int pmdDeleteCommand(char *pReceiveBuffer,
                         int packetSize,
-                        char **ppResultBuffer,
-                        int *pResultBufferSize,
-                        bool *disconnect,
                         pmdEDUCB *cb,
                         bson::BSONObj* obj);
+
+int pmdQueryCommand(char *pReceiveBuffer,
+                        int packetSize,
+                        pmdEDUCB *cb,
+                        BSONObj* obj);
 
 #endif
