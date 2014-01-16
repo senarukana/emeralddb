@@ -1,16 +1,16 @@
 AUTOMAKE_OPTIONS=foreign
 bin_PROGRAMS=emeralddb edb
 emeralddb_SOURCES=\
-	pmd/pmdMain.cpp pmd/pmdTcpListener.cpp pmd/pmdAgent.cpp pmd/pmd.cpp\
+	pmd/pmdMain.cpp pmd/pmdTcpListener.cpp pmd/pmdAgent.cpp pmd/pmd.cpp \
     pmd/pmdOptions.cpp pmd/pmdCommand.cpp \
     pmd/pmdEDUMgr.cpp pmd/pmdEDU.cpp \
 	bson/src/bsonobj.cpp bson/src/util/json.cpp bson/src/oid.cpp \
 	bson/src/lib/base64.cpp bson/src/lib/md5.cpp bson/src/lib/nonce.cpp \
-    oss/ossSocket.cpp oss/ossFileOp.cpp \
+    oss/ossSocket.cpp oss/ossFileOp.cpp oss/ossMmapFile.cpp dms/dms.cpp\
     pd/pd.cpp msg/msg.cpp
 
 edb_SOURCES=\
-    client/edb.cpp client/command.cpp client/commandFactory.cpp client/error.cpp\
+    client/edb.cpp client/command.cpp client/commandFactory.cpp client/error.cpp \
     bson/src/bsonobj.cpp bson/src/util/json.cpp bson/src/oid.cpp \
     bson/src/lib/base64.cpp bson/src/lib/md5.cpp bson/src/lib/nonce.cpp \
     oss/ossSocket.cpp oss/ossFileOp.cpp \

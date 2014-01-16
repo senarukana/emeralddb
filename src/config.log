@@ -37,6 +37,8 @@ PATH: /bin
 PATH: /usr/games
 PATH: /home/ted/go/bin
 PATH: /home/ted/goWorkspace/bin
+PATH: /home/ted/go/bin
+PATH: /home/ted/goWorkspace/bin
 
 
 ## ----------- ##
@@ -563,7 +565,7 @@ configure:4991: gcc -o conftest    conftest.c  >&5
 conftest.c:58:6: warning: conflicting types for built-in function 'pow' [enabled by default]
  char pow ();
       ^
-/tmp/ccyEDJcd.o: In function `main':
+/tmp/ccRURg9X.o: In function `main':
 conftest.c:(.text+0x7): undefined reference to `pow'
 collect2: error: ld returned 1 exit status
 configure:4991: $? = 1

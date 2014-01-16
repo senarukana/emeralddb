@@ -7,8 +7,8 @@ typedef unsigned int SLOTID;
 // each record i represented by RID, which can be broken in to page id and slotid
 
 struct dmsRecordID {
-    PAGEID _pageId;
-    SLOTID _slotId;
+    PAGEID _pageID;
+    SLOTID _slotID;
 };
 
 #endif
