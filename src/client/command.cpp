@@ -183,7 +183,7 @@ int QueryCommand::execute(ossSocket &socket, std::vector<std::string> &argVec) {
     if (!socket.isConnected()) {
         return EDB_SOCKET_NOT_CONNECT;
     }
-    if ((rc = sendMsg(socket, msgBuildDelete)) < 0) {
+    if ((rc = sendMsg(socket, msgBuildQuery)) < 0) {
         return rc;
     }
 

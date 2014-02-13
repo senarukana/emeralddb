@@ -123,6 +123,11 @@ int pmdQueryCommand(char *pReceiveBuffer,
 
     PD_LOG(PDTRACE, "Query request received");
 
+    if (obj == nullptr) {
+        rc = EDB_SYS;
+        PD_LOG(PDERROR, "fatal error, query obj is null");
+        goto error;
+    }
     rc = msgExtractQuery(pReceiveBuffer, recordID);
     if (rc) {
         PD_LOG(PDERROR, "Failed to read query packet");
@@ -131,6 +136,7 @@ int pmdQueryCommand(char *pReceiveBuffer,
     }
     PD_LOG(PDTRACE, "Query condition: %s", recordID.toString().c_str());
     rc = rtnMgr->rtnFind(recordID,findObj);
+    *obj = findObj;
 done:
     return rc;    
 error:

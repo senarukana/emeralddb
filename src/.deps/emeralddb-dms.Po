@@ -781,7 +781,7 @@ emeralddb-dms.o: dms/dms.cpp include/dms.hpp include/ossLatch.hpp \
  ../boost/boost/thread/thread_time.hpp \
  ../boost/boost/config/abi_prefix.hpp \
  ../boost/boost/config/abi_suffix.hpp include/dmsRecord.hpp \
- include/pd.hpp
+ include/ixmBucket.hpp include/pd.hpp
 
 include/dms.hpp:
 
@@ -2670,5 +2670,7 @@ bson/src/util/time_support.h:
 ../boost/boost/config/abi_suffix.hpp:
 
 include/dmsRecord.hpp:
+
+include/ixmBucket.hpp:
 
 include/pd.hpp:

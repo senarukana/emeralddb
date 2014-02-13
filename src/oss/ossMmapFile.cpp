@@ -39,7 +39,7 @@ void _ossMmapFile::close() {
 int _ossMmapFile::map(unsigned long long offset, unsigned int length, void **pAddress) {
     int rc = EDB_OK;
     ossMmapSegment seg{ NULL, 0, 0};
-    unsigned long long fileSize;
+    unsigned long long fileSize = 0;
     void *segment = NULL;
 
     if (length == 0) {
@@ -48,14 +48,14 @@ int _ossMmapFile::map(unsigned long long offset, unsigned int length, void **pAd
     /******************CRITICAL SECTION ******************/
     _mutex.get();
     rc = _fileOp.getSize((off_t*)&fileSize);
-    if (rc) {
+    if (rc < 0) {
         PD_LOG(PDERROR,
             "Failed to get file size, rc = %d", rc);
         goto error;
     }
     if (offset + length > fileSize) {
         PD_LOG(PDERROR,
-            "Offset is greater than file size");
+            "Offset is greater than file size: %u : %u", offset + length, fileSize);
         rc = EDB_INVALIDARG;
         goto error;
     }

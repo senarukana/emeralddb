@@ -40925,3 +40925,1827 @@ File:pmd/pmdAgent.cpp
 Message: 
 System error, rc = -17
 
+2014-01-17-09.43.51.248757                   Level:ERROR
+PID:15763                                    TID:15763
+Function:map                                 Line:58
+File:oss/ossMmapFile.cpp
+Message: 
+Offset is greater than file size
+
+2014-01-17-09.43.51.268758                   Level:ERROR
+PID:15763                                    TID:15763
+Function:_loadData                           Line:440
+File:dms/dms.cpp
+Message: 
+Failed to map file header, rc = -2
+
+2014-01-17-09.43.51.268928                   Level:ERROR
+PID:15763                                    TID:15763
+Function:init                                Line:267
+File:dms/dms.cpp
+Message: 
+Failed to load data, rc = -2
+
+2014-01-17-09.43.51.269096                   Level:ERROR
+PID:15763                                    TID:15763
+Function:init                                Line:30
+File:rtn/rtn.cpp
+Message: 
+Failed to init dms, rc = -2
+
+2014-01-17-09.43.51.269219                   Level:ERROR
+PID:15763                                    TID:15763
+Function:pmdResolveArguments                 Line:36
+File:pmd/pmdMain.cpp
+Message: 
+Failed to init krcv, rc = -2
+
+2014-01-17-09.43.51.269341                   Level:ERROR
+PID:15763                                    TID:15763
+Function:main                                Line:152
+File:pmd/pmdMain.cpp
+Message: 
+Failed to resolve argument, rc = -2
+
+2014-01-17-09.46.26.731189                   Level:ERROR
+PID:17289                                    TID:17289
+Function:map                                 Line:58
+File:oss/ossMmapFile.cpp
+Message: 
+Offset is greater than file size
+
+2014-01-17-09.46.26.732182                   Level:ERROR
+PID:17289                                    TID:17289
+Function:_loadData                           Line:440
+File:dms/dms.cpp
+Message: 
+Failed to map file header, rc = -2
+
+2014-01-17-09.46.26.732602                   Level:ERROR
+PID:17289                                    TID:17289
+Function:init                                Line:267
+File:dms/dms.cpp
+Message: 
+Failed to load data, rc = -2
+
+2014-01-17-09.46.26.732952                   Level:ERROR
+PID:17289                                    TID:17289
+Function:init                                Line:30
+File:rtn/rtn.cpp
+Message: 
+Failed to init dms, rc = -2
+
+2014-01-17-09.46.26.733317                   Level:ERROR
+PID:17289                                    TID:17289
+Function:pmdResolveArguments                 Line:36
+File:pmd/pmdMain.cpp
+Message: 
+Failed to init krcv, rc = -2
+
+2014-01-17-09.46.26.733443                   Level:ERROR
+PID:17289                                    TID:17289
+Function:main                                Line:152
+File:pmd/pmdMain.cpp
+Message: 
+Failed to resolve argument, rc = -2
+
+2014-01-17-09.49.28.605736                   Level:ERROR
+PID:18834                                    TID:18834
+Function:init                                Line:33
+File:rtn/rtn.cpp
+Message: 
+init dms file complete, rc = 0
+
+2014-01-17-09.57.02.421542                   Level:ERROR
+PID:21918                                    TID:21918
+Function:map                                 Line:58
+File:oss/ossMmapFile.cpp
+Message: 
+Offset is greater than file size
+
+2014-01-17-09.57.02.421931                   Level:ERROR
+PID:21918                                    TID:21918
+Function:_loadData                           Line:440
+File:dms/dms.cpp
+Message: 
+Failed to map file header, rc = -2
+
+2014-01-17-09.57.02.422079                   Level:ERROR
+PID:21918                                    TID:21918
+Function:init                                Line:267
+File:dms/dms.cpp
+Message: 
+Failed to load data, rc = -2
+
+2014-01-17-09.57.02.422218                   Level:ERROR
+PID:21918                                    TID:21918
+Function:init                                Line:33
+File:rtn/rtn.cpp
+Message: 
+Failed to init dms, rc = -2
+
+2014-01-17-09.57.02.422352                   Level:ERROR
+PID:21918                                    TID:21918
+Function:pmdResolveArguments                 Line:36
+File:pmd/pmdMain.cpp
+Message: 
+Failed to init krcv, rc = -2
+
+2014-01-17-09.57.02.422478                   Level:ERROR
+PID:21918                                    TID:21918
+Function:main                                Line:152
+File:pmd/pmdMain.cpp
+Message: 
+Failed to resolve argument, rc = -2
+
+2014-01-17-10.00.02.985437                   Level:ERROR
+PID:23427                                    TID:23427
+Function:map                                 Line:58
+File:oss/ossMmapFile.cpp
+Message: 
+Offset is greater than file size: 4194304 : 0
+
+2014-01-17-10.00.02.987621                   Level:ERROR
+PID:23427                                    TID:23427
+Function:_loadData                           Line:440
+File:dms/dms.cpp
+Message: 
+Failed to map file header, rc = -2
+
+2014-01-17-10.00.02.987701                   Level:ERROR
+PID:23427                                    TID:23427
+Function:init                                Line:267
+File:dms/dms.cpp
+Message: 
+Failed to load data, rc = -2
+
+2014-01-17-10.00.02.987757                   Level:ERROR
+PID:23427                                    TID:23427
+Function:init                                Line:33
+File:rtn/rtn.cpp
+Message: 
+Failed to init dms, rc = -2
+
+2014-01-17-10.00.02.987813                   Level:ERROR
+PID:23427                                    TID:23427
+Function:pmdResolveArguments                 Line:36
+File:pmd/pmdMain.cpp
+Message: 
+Failed to init krcv, rc = -2
+
+2014-01-17-10.00.02.987869                   Level:ERROR
+PID:23427                                    TID:23427
+Function:main                                Line:152
+File:pmd/pmdMain.cpp
+Message: 
+Failed to resolve argument, rc = -2
+
+2014-01-17-10.03.01.635436                   Level:ERROR
+PID:26268                                    TID:26268
+Function:map                                 Line:58
+File:oss/ossMmapFile.cpp
+Message: 
+Offset is greater than file size: 4194304 : 0
+
+2014-01-17-10.03.01.636005                   Level:ERROR
+PID:26268                                    TID:26268
+Function:_loadData                           Line:440
+File:dms/dms.cpp
+Message: 
+Failed to map file header, rc = -2
+
+2014-01-17-10.03.01.636195                   Level:ERROR
+PID:26268                                    TID:26268
+Function:init                                Line:267
+File:dms/dms.cpp
+Message: 
+Failed to load data, rc = -2
+
+2014-01-17-10.03.01.636368                   Level:ERROR
+PID:26268                                    TID:26268
+Function:init                                Line:33
+File:rtn/rtn.cpp
+Message: 
+Failed to init dms, rc = -2
+
+2014-01-17-10.03.01.636539                   Level:ERROR
+PID:26268                                    TID:26268
+Function:pmdResolveArguments                 Line:36
+File:pmd/pmdMain.cpp
+Message: 
+Failed to init krcv, rc = -2
+
+2014-01-17-10.03.01.636710                   Level:ERROR
+PID:26268                                    TID:26268
+Function:main                                Line:152
+File:pmd/pmdMain.cpp
+Message: 
+Failed to resolve argument, rc = -2
+
+2014-01-17-10.46.04.421547                   Level:ERROR
+PID:29998                                    TID:29998
+Function:init                                Line:258
+File:dms/dms.cpp
+Message: 
+init get size 65536
+
+2014-01-17-10.46.04.421698                   Level:ERROR
+PID:29998                                    TID:29998
+Function:map                                 Line:58
+File:oss/ossMmapFile.cpp
+Message: 
+Offset is greater than file size: 4194304 : 0
+
+2014-01-17-10.46.04.421730                   Level:ERROR
+PID:29998                                    TID:29998
+Function:_loadData                           Line:442
+File:dms/dms.cpp
+Message: 
+Failed to map file header, rc = -2
+
+2014-01-17-10.46.04.421752                   Level:ERROR
+PID:29998                                    TID:29998
+Function:init                                Line:269
+File:dms/dms.cpp
+Message: 
+Failed to load data, rc = -2
+
+2014-01-17-10.46.04.421773                   Level:ERROR
+PID:29998                                    TID:29998
+Function:init                                Line:44
+File:rtn/rtn.cpp
+Message: 
+Failed to init dms, rc = -2
+
+2014-01-17-10.46.04.421795                   Level:ERROR
+PID:29998                                    TID:29998
+Function:pmdResolveArguments                 Line:36
+File:pmd/pmdMain.cpp
+Message: 
+Failed to init krcv, rc = -2
+
+2014-01-17-10.46.04.421817                   Level:ERROR
+PID:29998                                    TID:29998
+Function:main                                Line:152
+File:pmd/pmdMain.cpp
+Message: 
+Failed to resolve argument, rc = -2
+
+2014-01-17-10.54.06.295269                   Level:ERROR
+PID:31539                                    TID:31539
+Function:map                                 Line:58
+File:oss/ossMmapFile.cpp
+Message: 
+Offset is greater than file size: 4194304 : 0
+
+2014-01-17-10.54.06.295902                   Level:ERROR
+PID:31539                                    TID:31539
+Function:_loadData                           Line:441
+File:dms/dms.cpp
+Message: 
+Failed to map file header, rc = -2
+
+2014-01-17-10.54.06.296085                   Level:ERROR
+PID:31539                                    TID:31539
+Function:init                                Line:268
+File:dms/dms.cpp
+Message: 
+Failed to load data, rc = -2
+
+2014-01-17-10.54.06.296262                   Level:ERROR
+PID:31539                                    TID:31539
+Function:init                                Line:44
+File:rtn/rtn.cpp
+Message: 
+Failed to init dms, rc = -2
+
+2014-01-17-10.54.06.296432                   Level:ERROR
+PID:31539                                    TID:31539
+Function:pmdResolveArguments                 Line:36
+File:pmd/pmdMain.cpp
+Message: 
+Failed to init krcv, rc = -2
+
+2014-01-17-10.54.06.296605                   Level:ERROR
+PID:31539                                    TID:31539
+Function:main                                Line:152
+File:pmd/pmdMain.cpp
+Message: 
+Failed to resolve argument, rc = -2
+
+2014-01-17-10.57.29.777364                   Level:ERROR
+PID:525                                      TID:525
+Function:_loadData                           Line:450
+File:dms/dms.cpp
+Message: 
+num page is 0
+
+2014-01-17-10.57.29.781134                   Level:ERROR
+PID:525                                      TID:525
+Function:init                                Line:47
+File:rtn/rtn.cpp
+Message: 
+init dms file complete, rc = 0
+
+2014-01-17-10.57.29.781301                   Level:EVENT
+PID:525                                      TID:525
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-17-10.57.29.788755                   Level:EVENT
+PID:525                                      TID:526
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-01-17-10.57.51.027524                   Level:ERROR
+PID:535                                      TID:535
+Function:_loadData                           Line:450
+File:dms/dms.cpp
+Message: 
+num page is 0
+
+2014-01-17-10.57.51.028481                   Level:ERROR
+PID:535                                      TID:535
+Function:init                                Line:47
+File:rtn/rtn.cpp
+Message: 
+init dms file complete, rc = 0
+
+2014-01-17-10.57.51.029072                   Level:EVENT
+PID:535                                      TID:535
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-17-10.57.51.031407                   Level:EVENT
+PID:535                                      TID:536
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-01-17-10.58.21.321899                   Level:EVENT
+PID:535                                      TID:605
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-01-17-10.58.21.322108                   Level:EVENT
+PID:535                                      TID:605
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "ok", test: "power" }
+
+2014-01-17-10.58.24.431273                   Level:ERROR
+PID:535                                      TID:605
+Function:pmdAgentEntryPoint                  Line:180
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 4096
+
+2014-01-17-10.59.19.471610                   Level:ERROR
+PID:535                                      TID:605
+Function:pmdAgentEntryPoint                  Line:180
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 4096
+
+2014-01-17-10.59.19.602897                   Level:ERROR
+PID:535                                      TID:605
+Function:recv                                Line:278
+File:oss/ossSocket.cpp
+Message: 
+Peer unexpected shutdown
+
+2014-01-17-10.59.19.603000                   Level:SEVERE
+PID:535                                      TID:605
+Function:pmdAgentEntryPoint                  Line:220
+File:pmd/pmdAgent.cpp
+Message: 
+Network error occured
+
+2014-01-17-10.59.19.603077                   Level:WARNING
+PID:535                                      TID:605
+Function:pmdEDUEntryPoint                    Line:155
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 2, type Unknown exits with -11
+
+2014-01-17-11.07.56.122932                   Level:ERROR
+PID:2471                                     TID:2471
+Function:_loadData                           Line:450
+File:dms/dms.cpp
+Message: 
+num page is 32
+
+2014-01-17-11.07.56.123255                   Level:ERROR
+PID:2471                                     TID:2471
+Function:init                                Line:47
+File:rtn/rtn.cpp
+Message: 
+init dms file complete, rc = 0
+
+2014-01-17-11.07.56.123376                   Level:EVENT
+PID:2471                                     TID:2471
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-17-11.07.56.124088                   Level:EVENT
+PID:2471                                     TID:2472
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-01-17-11.08.19.692811                   Level:EVENT
+PID:2471                                     TID:2480
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-01-17-11.08.19.693037                   Level:EVENT
+PID:2471                                     TID:2480
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "ok", test: "power" }
+
+2014-01-17-11.08.19.693190                   Level:ERROR
+PID:2471                                     TID:2480
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-01-17-11.09.11.212750                   Level:ERROR
+PID:2471                                     TID:2480
+Function:_searchSlot                         Line:417
+File:dms/dms.cpp
+Message: 
+Slot is out of range, provided: 136104976, max :0
+
+2014-01-17-11.09.11.212898                   Level:ERROR
+PID:2471                                     TID:2480
+Function:find                                Line:193
+File:dms/dms.cpp
+Message: 
+Failed to search slot, rc = -5
+
+2014-01-17-11.09.11.213005                   Level:ERROR
+PID:2471                                     TID:2480
+Function:rtnFind                             Line:82
+File:rtn/rtn.cpp
+Message: 
+Failed to call dms find, rc = -5
+
+2014-01-17-11.09.11.213073                   Level:ERROR
+PID:2471                                     TID:2480
+Function:pmdProcessAgentRequest              Line:86
+File:pmd/pmdAgent.cpp
+Message: 
+System error, rc = -5
+
+2014-01-17-11.09.11.213150                   Level:ERROR
+PID:2471                                     TID:2480
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 21
+
+2014-01-17-11.14.30.898432                   Level:ERROR
+PID:4234                                     TID:4234
+Function:_loadData                           Line:453
+File:dms/dms.cpp
+Message: 
+num page is 0
+
+2014-01-17-11.14.30.898636                   Level:ERROR
+PID:4234                                     TID:4234
+Function:init                                Line:47
+File:rtn/rtn.cpp
+Message: 
+init dms file complete, rc = 0
+
+2014-01-17-11.14.30.898755                   Level:EVENT
+PID:4234                                     TID:4234
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-17-11.14.30.899440                   Level:EVENT
+PID:4234                                     TID:4235
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-01-17-11.14.40.906977                   Level:EVENT
+PID:4234                                     TID:4244
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-01-17-11.14.40.907207                   Level:EVENT
+PID:4234                                     TID:4244
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "ok", test: "power" }
+
+2014-01-17-11.14.44.577382                   Level:ERROR
+PID:4234                                     TID:4244
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-01-17-11.15.47.658464                   Level:ERROR
+PID:4278                                     TID:4278
+Function:_loadData                           Line:453
+File:dms/dms.cpp
+Message: 
+num page is 32
+
+2014-01-17-11.15.47.658935                   Level:ERROR
+PID:4278                                     TID:4278
+Function:init                                Line:47
+File:rtn/rtn.cpp
+Message: 
+init dms file complete, rc = 0
+
+2014-01-17-11.15.47.660054                   Level:EVENT
+PID:4278                                     TID:4278
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-17-11.15.47.665699                   Level:EVENT
+PID:4278                                     TID:4283
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-01-17-11.16.06.771395                   Level:EVENT
+PID:4278                                     TID:4288
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-01-17-11.16.06.771599                   Level:EVENT
+PID:4278                                     TID:4288
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "ok", test: "power" }
+
+2014-01-17-11.16.06.771690                   Level:ERROR
+PID:4278                                     TID:4288
+Function:isIDExist                           Line:144
+File:ixm/ixmBucket.cpp
+Message: 
+record _id does exist
+
+2014-01-17-11.16.06.771792                   Level:ERROR
+PID:4278                                     TID:4288
+Function:rtnInsert                           Line:61
+File:rtn/rtn.cpp
+Message: 
+Failed to call isIDExist, rc = -14
+
+2014-01-17-11.16.06.771856                   Level:ERROR
+PID:4278                                     TID:4288
+Function:pmdProcessAgentRequest              Line:86
+File:pmd/pmdAgent.cpp
+Message: 
+System error, rc = -14
+
+2014-01-17-11.16.06.771920                   Level:ERROR
+PID:4278                                     TID:4288
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-01-17-11.16.46.576906                   Level:EVENT
+PID:4278                                     TID:4288
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-01-17-11.16.46.577001                   Level:EVENT
+PID:4278                                     TID:4288
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "test" }
+
+2014-01-17-11.22.33.192255                   Level:ERROR
+PID:4278                                     TID:4288
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-01-17-11.24.18.951785                   Level:ERROR
+PID:4278                                     TID:4288
+Function:_searchSlot                         Line:420
+File:dms/dms.cpp
+Message: 
+Slot is out of range, provided: 136104976, max :0
+
+2014-01-17-11.24.18.951934                   Level:ERROR
+PID:4278                                     TID:4288
+Function:find                                Line:196
+File:dms/dms.cpp
+Message: 
+Failed to search slot, rc = -5
+
+2014-01-17-11.24.20.578865                   Level:ERROR
+PID:4278                                     TID:4288
+Function:rtnFind                             Line:82
+File:rtn/rtn.cpp
+Message: 
+Failed to call dms find, rc = -5
+
+2014-01-17-11.24.23.175737                   Level:ERROR
+PID:4278                                     TID:4288
+Function:pmdProcessAgentRequest              Line:86
+File:pmd/pmdAgent.cpp
+Message: 
+System error, rc = -5
+
+2014-01-17-11.24.24.301606                   Level:ERROR
+PID:4278                                     TID:4288
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 21
+
+2014-01-17-11.28.13.451490                   Level:ERROR
+PID:5879                                     TID:5879
+Function:_loadData                           Line:453
+File:dms/dms.cpp
+Message: 
+num page is 32
+
+2014-01-17-11.28.13.451997                   Level:ERROR
+PID:5879                                     TID:5879
+Function:init                                Line:47
+File:rtn/rtn.cpp
+Message: 
+init dms file complete, rc = 0
+
+2014-01-17-11.28.13.452205                   Level:EVENT
+PID:5879                                     TID:5879
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-17-11.28.13.452904                   Level:EVENT
+PID:5879                                     TID:5880
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-01-17-11.28.30.664228                   Level:ERROR
+PID:5879                                     TID:5885
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 21
+
+2014-01-17-11.28.47.328402                   Level:ERROR
+PID:5879                                     TID:5885
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 21
+
+2014-01-17-11.29.43.725963                   Level:EVENT
+PID:5879                                     TID:5885
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-01-17-11.29.43.726045                   Level:EVENT
+PID:5879                                     TID:5885
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "power", _data: "haha", email: "ok" }
+
+2014-01-17-11.29.43.726101                   Level:ERROR
+PID:5879                                     TID:5885
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-01-17-11.30.01.606131                   Level:ERROR
+PID:5879                                     TID:5885
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 21
+
+2014-01-17-11.31.00.059104                   Level:ERROR
+PID:5946                                     TID:5946
+Function:_loadData                           Line:453
+File:dms/dms.cpp
+Message: 
+num page is 32
+
+2014-01-17-11.31.00.059622                   Level:ERROR
+PID:5946                                     TID:5946
+Function:init                                Line:47
+File:rtn/rtn.cpp
+Message: 
+init dms file complete, rc = 0
+
+2014-01-17-11.31.00.060680                   Level:EVENT
+PID:5946                                     TID:5946
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-17-11.31.00.069565                   Level:EVENT
+PID:5946                                     TID:5950
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-01-17-11.35.16.993407                   Level:ERROR
+PID:7444                                     TID:7444
+Function:_loadData                           Line:453
+File:dms/dms.cpp
+Message: 
+num page is 32
+
+2014-01-17-11.35.17.384412                   Level:ERROR
+PID:7444                                     TID:7444
+Function:init                                Line:47
+File:rtn/rtn.cpp
+Message: 
+init dms file complete, rc = 0
+
+2014-01-17-11.35.17.384584                   Level:EVENT
+PID:7444                                     TID:7444
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-17-11.35.17.385431                   Level:EVENT
+PID:7444                                     TID:7445
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-01-17-11.35.37.131790                   Level:ERROR
+PID:7444                                     TID:7458
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 66
+
+2014-01-17-11.43.43.129412                   Level:ERROR
+PID:7736                                     TID:7736
+Function:_loadData                           Line:453
+File:dms/dms.cpp
+Message: 
+num page is 32
+
+2014-01-17-11.43.43.129972                   Level:ERROR
+PID:7736                                     TID:7736
+Function:init                                Line:47
+File:rtn/rtn.cpp
+Message: 
+init dms file complete, rc = 0
+
+2014-01-17-11.43.43.130174                   Level:EVENT
+PID:7736                                     TID:7736
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-01-17-11.43.43.130872                   Level:EVENT
+PID:7736                                     TID:7737
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-02-13-14.55.53.685545                   Level:ERROR
+PID:14356                                    TID:14356
+Function:_loadData                           Line:453
+File:dms/dms.cpp
+Message: 
+num page is 32
+
+2014-02-13-14.55.54.069157                   Level:ERROR
+PID:14356                                    TID:14356
+Function:init                                Line:47
+File:rtn/rtn.cpp
+Message: 
+init dms file complete, rc = 0
+
+2014-02-13-14.55.54.069318                   Level:EVENT
+PID:14356                                    TID:14356
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-02-13-14.55.54.088268                   Level:EVENT
+PID:14356                                    TID:14357
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48127
+
+
+2014-02-13-14.59.27.811603                   Level:EVENT
+PID:14356                                    TID:14362
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-14.59.27.811817                   Level:EVENT
+PID:14356                                    TID:14362
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { m: "fuck" }
+
+2014-02-13-14.59.27.811891                   Level:ERROR
+PID:14356                                    TID:14362
+Function:pmdInsertCommand                    Line:69
+File:pmd/pmdCommand.cpp
+Message: 
+First element in inserted record is not _id
+
+2014-02-13-14.59.27.811955                   Level:ERROR
+PID:14356                                    TID:14362
+Function:pmdProcessAgentRequest              Line:86
+File:pmd/pmdAgent.cpp
+Message: 
+System error, rc = -17
+
+2014-02-13-14.59.27.812029                   Level:ERROR
+PID:14356                                    TID:14362
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-14.59.42.808740                   Level:EVENT
+PID:14356                                    TID:14362
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-14.59.42.808849                   Level:EVENT
+PID:14356                                    TID:14362
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "123", data: "fuck" }
+
+2014-02-13-14.59.42.809521                   Level:ERROR
+PID:14356                                    TID:14362
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-15.00.02.955150                   Level:ERROR
+PID:14356                                    TID:14362
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 49
+
+2014-02-13-17.08.51.254723                   Level:ERROR
+PID:19330                                    TID:19330
+Function:_loadData                           Line:453
+File:dms/dms.cpp
+Message: 
+num page is 32
+
+2014-02-13-17.08.51.256098                   Level:ERROR
+PID:19330                                    TID:19330
+Function:init                                Line:47
+File:rtn/rtn.cpp
+Message: 
+init dms file complete, rc = 0
+
+2014-02-13-17.08.51.257041                   Level:EVENT
+PID:19330                                    TID:19330
+Function:main                                Line:156
+File:pmd/pmdMain.cpp
+Message: 
+TCPlistener EDU is 1
+
+2014-02-13-17.08.51.259708                   Level:EVENT
+PID:19330                                    TID:19331
+Function:pmdTcpListenerEntryPoint            Line:39
+File:pmd/pmdTcpListener.cpp
+Message: 
+Listening on port 48124
+
+
+2014-02-13-17.19.38.229614                   Level:EVENT
+PID:19330                                    TID:20096
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.19.38.229675                   Level:EVENT
+PID:19330                                    TID:20096
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "5" }
+
+2014-02-13-17.19.38.229709                   Level:ERROR
+PID:19330                                    TID:20096
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.19.38.230117                   Level:EVENT
+PID:19330                                    TID:20096
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.19.38.230153                   Level:EVENT
+PID:19330                                    TID:20096
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "6" }
+
+2014-02-13-17.19.38.230183                   Level:ERROR
+PID:19330                                    TID:20096
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.19.38.235783                   Level:ERROR
+PID:19330                                    TID:20096
+Function:recv                                Line:278
+File:oss/ossSocket.cpp
+Message: 
+Peer unexpected shutdown
+
+2014-02-13-17.19.38.235819                   Level:SEVERE
+PID:19330                                    TID:20096
+Function:pmdAgentEntryPoint                  Line:230
+File:pmd/pmdAgent.cpp
+Message: 
+Network error occured
+
+2014-02-13-17.19.38.235873                   Level:WARNING
+PID:19330                                    TID:20096
+Function:pmdEDUEntryPoint                    Line:155
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 2, type Unknown exits with -11
+
+2014-02-13-17.29.52.862339                   Level:EVENT
+PID:19330                                    TID:20411
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.29.52.862386                   Level:EVENT
+PID:19330                                    TID:20411
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "5" }
+
+2014-02-13-17.29.52.862411                   Level:ERROR
+PID:19330                                    TID:20411
+Function:isIDExist                           Line:144
+File:ixm/ixmBucket.cpp
+Message: 
+record _id does exist
+
+2014-02-13-17.29.52.862432                   Level:ERROR
+PID:19330                                    TID:20411
+Function:rtnInsert                           Line:61
+File:rtn/rtn.cpp
+Message: 
+Failed to call isIDExist, rc = -14
+
+2014-02-13-17.29.52.862452                   Level:ERROR
+PID:19330                                    TID:20411
+Function:pmdProcessAgentRequest              Line:86
+File:pmd/pmdAgent.cpp
+Message: 
+System error, rc = -14
+
+2014-02-13-17.29.52.862472                   Level:ERROR
+PID:19330                                    TID:20411
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.29.52.862923                   Level:EVENT
+PID:19330                                    TID:20411
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.29.52.862966                   Level:EVENT
+PID:19330                                    TID:20411
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "6" }
+
+2014-02-13-17.29.52.862998                   Level:ERROR
+PID:19330                                    TID:20411
+Function:isIDExist                           Line:144
+File:ixm/ixmBucket.cpp
+Message: 
+record _id does exist
+
+2014-02-13-17.29.52.863018                   Level:ERROR
+PID:19330                                    TID:20411
+Function:rtnInsert                           Line:61
+File:rtn/rtn.cpp
+Message: 
+Failed to call isIDExist, rc = -14
+
+2014-02-13-17.29.52.863038                   Level:ERROR
+PID:19330                                    TID:20411
+Function:pmdProcessAgentRequest              Line:86
+File:pmd/pmdAgent.cpp
+Message: 
+System error, rc = -14
+
+2014-02-13-17.29.52.863058                   Level:ERROR
+PID:19330                                    TID:20411
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.29.52.870107                   Level:ERROR
+PID:19330                                    TID:20411
+Function:recv                                Line:278
+File:oss/ossSocket.cpp
+Message: 
+Peer unexpected shutdown
+
+2014-02-13-17.29.52.870144                   Level:SEVERE
+PID:19330                                    TID:20411
+Function:pmdAgentEntryPoint                  Line:230
+File:pmd/pmdAgent.cpp
+Message: 
+Network error occured
+
+2014-02-13-17.29.52.870201                   Level:WARNING
+PID:19330                                    TID:20411
+Function:pmdEDUEntryPoint                    Line:155
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 3, type Unknown exits with -11
+
+2014-02-13-17.36.29.488159                   Level:EVENT
+PID:19330                                    TID:20630
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.36.29.488254                   Level:EVENT
+PID:19330                                    TID:20630
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "0" }
+
+2014-02-13-17.36.29.488307                   Level:ERROR
+PID:19330                                    TID:20630
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.36.29.493229                   Level:EVENT
+PID:19330                                    TID:20630
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.36.29.493274                   Level:EVENT
+PID:19330                                    TID:20630
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "9" }
+
+2014-02-13-17.36.29.493304                   Level:ERROR
+PID:19330                                    TID:20630
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.36.29.497946                   Level:ERROR
+PID:19330                                    TID:20630
+Function:recv                                Line:278
+File:oss/ossSocket.cpp
+Message: 
+Peer unexpected shutdown
+
+2014-02-13-17.36.29.498003                   Level:SEVERE
+PID:19330                                    TID:20630
+Function:pmdAgentEntryPoint                  Line:230
+File:pmd/pmdAgent.cpp
+Message: 
+Network error occured
+
+2014-02-13-17.36.29.498060                   Level:WARNING
+PID:19330                                    TID:20630
+Function:pmdEDUEntryPoint                    Line:155
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 4, type Unknown exits with -11
+
+ Level:EVENT
+PID:19472                                    TID:20410
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "8" }
+
+2014-02-13-17.29.52.863986                   Level:ERROR
+PID:19472                                    TID:20410
+Function:isIDExist                           Line:144
+File:ixm/ixmBucket.cpp
+Message: 
+record _id does exist
+
+2014-02-13-17.29.52.864007                   Level:ERROR
+PID:19472                                    TID:20410
+Function:rtnInsert                           Line:61
+File:rtn/rtn.cpp
+Message: 
+Failed to call isIDExist, rc = -14
+
+2014-02-13-17.29.52.864026                   Level:ERROR
+PID:19472                                    TID:20410
+Function:pmdProcessAgentRequest              Line:86
+File:pmd/pmdAgent.cpp
+Message: 
+System error, rc = -14
+
+2014-02-13-17.29.52.864046                   Level:ERROR
+PID:19472                                    TID:20410
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.29.52.869537                   Level:ERROR
+PID:19472                                    TID:20410
+Function:recv                                Line:278
+File:oss/ossSocket.cpp
+Message: 
+Peer unexpected shutdown
+
+2014-02-13-17.29.52.869605                   Level:SEVERE
+PID:19472                                    TID:20410
+Function:pmdAgentEntryPoint                  Line:230
+File:pmd/pmdAgent.cpp
+Message: 
+Network error occured
+
+2014-02-13-17.29.52.869673                   Level:WARNING
+PID:19472                                    TID:20410
+Function:pmdEDUEntryPoint                    Line:155
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 3, type Unknown exits with -11
+
+2014-02-13-17.36.29.489565                   Level:EVENT
+PID:19472                                    TID:20629
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.36.29.489614                   Level:EVENT
+PID:19472                                    TID:20629
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "2" }
+
+2014-02-13-17.36.29.489639                   Level:ERROR
+PID:19472                                    TID:20629
+Function:isIDExist                           Line:144
+File:ixm/ixmBucket.cpp
+Message: 
+record _id does exist
+
+2014-02-13-17.36.29.489660                   Level:ERROR
+PID:19472                                    TID:20629
+Function:rtnInsert                           Line:61
+File:rtn/rtn.cpp
+Message: 
+Failed to call isIDExist, rc = -14
+
+2014-02-13-17.36.29.489680                   Level:ERROR
+PID:19472                                    TID:20629
+Function:pmdProcessAgentRequest              Line:86
+File:pmd/pmdAgent.cpp
+Message: 
+System error, rc = -14
+
+2014-02-13-17.36.29.489699                   Level:ERROR
+PID:19472                                    TID:20629
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.36.29.490094                   Level:EVENT
+PID:19472                                    TID:20629
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.36.29.490129                   Level:EVENT
+PID:19472                                    TID:20629
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "3" }
+
+2014-02-13-17.36.29.490166                   Level:ERROR
+PID:19472                                    TID:20629
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.36.29.497940                   Level:ERROR
+PID:19472                                    TID:20629
+Function:recv                                Line:278
+File:oss/ossSocket.cpp
+Message: 
+Peer unexpected shutdown
+
+2014-02-13-17.36.29.498005                   Level:SEVERE
+PID:19472                                    TID:20629
+Function:pmdAgentEntryPoint                  Line:230
+File:pmd/pmdAgent.cpp
+Message: 
+Network error occured
+
+2014-02-13-17.36.29.498065                   Level:WARNING
+PID:19472                                    TID:20629
+Function:pmdEDUEntryPoint                    Line:155
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 4, type Unknown exits with -11
+
+                   Level:ERROR
+PID:19478                                    TID:20412
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.29.52.864390                   Level:EVENT
+PID:19478                                    TID:20412
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.29.52.864427                   Level:EVENT
+PID:19478                                    TID:20412
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "9" }
+
+2014-02-13-17.29.52.864454                   Level:ERROR
+PID:19478                                    TID:20412
+Function:isIDExist                           Line:144
+File:ixm/ixmBucket.cpp
+Message: 
+record _id does exist
+
+2014-02-13-17.29.52.864475                   Level:ERROR
+PID:19478                                    TID:20412
+Function:rtnInsert                           Line:61
+File:rtn/rtn.cpp
+Message: 
+Failed to call isIDExist, rc = -14
+
+2014-02-13-17.29.52.864496                   Level:ERROR
+PID:19478                                    TID:20412
+Function:pmdProcessAgentRequest              Line:86
+File:pmd/pmdAgent.cpp
+Message: 
+System error, rc = -14
+
+2014-02-13-17.29.52.864517                   Level:ERROR
+PID:19478                                    TID:20412
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.29.52.869579                   Level:ERROR
+PID:19478                                    TID:20412
+Function:recv                                Line:278
+File:oss/ossSocket.cpp
+Message: 
+Peer unexpected shutdown
+
+2014-02-13-17.29.52.869617                   Level:SEVERE
+PID:19478                                    TID:20412
+Function:pmdAgentEntryPoint                  Line:230
+File:pmd/pmdAgent.cpp
+Message: 
+Network error occured
+
+2014-02-13-17.29.52.869671                   Level:WARNING
+PID:19478                                    TID:20412
+Function:pmdEDUEntryPoint                    Line:155
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 3, type Unknown exits with -11
+
+2014-02-13-17.32.40.381131                   Level:ERROR
+PID:19478                                    TID:20474
+Function:findIndex                           Line:183
+File:ixm/ixmBucket.cpp
+Message: 
+element not found
+
+2014-02-13-17.32.40.381312                   Level:ERROR
+PID:19478                                    TID:20474
+Function:rtnFind                             Line:80
+File:rtn/rtn.cpp
+Message: 
+Failed to call ixm findindex, rc = -2
+
+2014-02-13-17.32.40.381383                   Level:ERROR
+PID:19478                                    TID:20474
+Function:pmdProcessAgentRequest              Line:78
+File:pmd/pmdAgent.cpp
+Message: 
+Invalid argument is received
+
+2014-02-13-17.32.40.381460                   Level:ERROR
+PID:19478                                    TID:20474
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 21
+
+2014-02-13-17.32.49.060969                   Level:ERROR
+PID:19478                                    TID:20474
+Function:findIndex                           Line:183
+File:ixm/ixmBucket.cpp
+Message: 
+element not found
+
+2014-02-13-17.32.49.061124                   Level:ERROR
+PID:19478                                    TID:20474
+Function:rtnFind                             Line:80
+File:rtn/rtn.cpp
+Message: 
+Failed to call ixm findindex, rc = -2
+
+2014-02-13-17.32.49.061252                   Level:ERROR
+PID:19478                                    TID:20474
+Function:pmdProcessAgentRequest              Line:78
+File:pmd/pmdAgent.cpp
+Message: 
+Invalid argument is received
+
+2014-02-13-17.32.49.061319                   Level:ERROR
+PID:19478                                    TID:20474
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 21
+
+2014-02-13-17.33.22.185926                   Level:ERROR
+PID:19478                                    TID:20474
+Function:findIndex                           Line:183
+File:ixm/ixmBucket.cpp
+Message: 
+element not found
+
+2014-02-13-17.33.22.185996                   Level:ERROR
+PID:19478                                    TID:20474
+Function:rtnFind                             Line:80
+File:rtn/rtn.cpp
+Message: 
+Failed to call ixm findindex, rc = -2
+
+2014-02-13-17.33.22.186027                   Level:ERROR
+PID:19478                                    TID:20474
+Function:pmdProcessAgentRequest              Line:78
+File:pmd/pmdAgent.cpp
+Message: 
+Invalid argument is received
+
+2014-02-13-17.33.22.186050                   Level:ERROR
+PID:19478                                    TID:20474
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 21
+
+2014-02-13-17.33.29.173071                   Level:ERROR
+PID:19478                                    TID:20474
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 49
+
+2014-02-13-17.33.37.908767                   Level:ERROR
+PID:19478                                    TID:20474
+Function:findIndex                           Line:183
+File:ixm/ixmBucket.cpp
+Message: 
+element not found
+
+2014-02-13-17.33.37.908919                   Level:ERROR
+PID:19478                                    TID:20474
+Function:rtnFind                             Line:80
+File:rtn/rtn.cpp
+Message: 
+Failed to call ixm findindex, rc = -2
+
+2014-02-13-17.33.37.908988                   Level:ERROR
+PID:19478                                    TID:20474
+Function:pmdProcessAgentRequest              Line:78
+File:pmd/pmdAgent.cpp
+Message: 
+Invalid argument is received
+
+2014-02-13-17.33.37.909055                   Level:ERROR
+PID:19478                                    TID:20474
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 21
+
+2014-02-13-17.33.58.445227                   Level:EVENT
+PID:19478                                    TID:20474
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.33.58.445425                   Level:EVENT
+PID:19478                                    TID:20474
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "test4" }
+
+2014-02-13-17.33.58.445567                   Level:ERROR
+PID:19478                                    TID:20474
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.34.08.141363                   Level:ERROR
+PID:19478                                    TID:20474
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 36
+
+2014-02-13-17.34.19.141071                   Level:ERROR
+PID:19478                                    TID:20474
+Function:recv                                Line:278
+File:oss/ossSocket.cpp
+Message: 
+Peer unexpected shutdown
+
+2014-02-13-17.34.19.141251                   Level:SEVERE
+PID:19478                                    TID:20474
+Function:pmdAgentEntryPoint                  Line:230
+File:pmd/pmdAgent.cpp
+Message: 
+Network error occured
+
+2014-02-13-17.34.19.141421                   Level:WARNING
+PID:19478                                    TID:20474
+Function:pmdEDUEntryPoint                    Line:155
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 4, type Unknown exits with -11
+
+2014-02-13-17.36.29.488941                   Level:EVENT
+PID:19478                                    TID:20631
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.36.29.488998                   Level:EVENT
+PID:19478                                    TID:20631
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "1" }
+
+2014-02-13-17.36.29.489026                   Level:ERROR
+PID:19478                                    TID:20631
+Function:isIDExist                           Line:144
+File:ixm/ixmBucket.cpp
+Message: 
+record _id does exist
+
+2014-02-13-17.36.29.489049                   Level:ERROR
+PID:19478                                    TID:20631
+Function:rtnInsert                           Line:61
+File:rtn/rtn.cpp
+Message: 
+Failed to call isIDExist, rc = -14
+
+2014-02-13-17.36.29.489072                   Level:ERROR
+PID:19478                                    TID:20631
+Function:pmdProcessAgentRequest              Line:86
+File:pmd/pmdAgent.cpp
+Message: 
+System error, rc = -14
+
+2014-02-13-17.36.29.489094                   Level:ERROR
+PID:19478                                    TID:20631
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.36.29.490607                   Level:EVENT
+PID:19478                                    TID:20631
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.36.29.490647                   Level:EVENT
+PID:19478                                    TID:20631
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "4" }
+
+2014-02-13-17.36.29.490694                   Level:ERROR
+PID:19478                                    TID:20631
+Function:isIDExist                           Line:144
+File:ixm/ixmBucket.cpp
+Message: 
+record _id does exist
+
+2014-02-13-17.36.29.490716                   Level:ERROR
+PID:19478                                    TID:20631
+Function:rtnInsert                           Line:61
+File:rtn/rtn.cpp
+Message: 
+Failed to call isIDExist, rc = -14
+
+2014-02-13-17.36.29.490737                   Level:ERROR
+PID:19478                                    TID:20631
+Function:pmdProcessAgentRequest              Line:86
+File:pmd/pmdAgent.cpp
+Message: 
+System error, rc = -14
+
+2014-02-13-17.36.29.490759                   Level:ERROR
+PID:19478                                    TID:20631
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.36.29.491177                   Level:EVENT
+PID:19478                                    TID:20631
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.36.29.491212                   Level:EVENT
+PID:19478                                    TID:20631
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "5" }
+
+2014-02-13-17.36.29.491250                   Level:ERROR
+PID:19478                                    TID:20631
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.36.29.491652                   Level:EVENT
+PID:19478                                    TID:20631
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.36.29.491685                   Level:EVENT
+PID:19478                                    TID:20631
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "6" }
+
+2014-02-13-17.36.29.491716                   Level:ERROR
+PID:19478                                    TID:20631
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.36.29.492155                   Level:EVENT
+PID:19478                                    TID:20631
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.36.29.492187                   Level:EVENT
+PID:19478                                    TID:20631
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "7" }
+
+2014-02-13-17.36.29.492217                   Level:ERROR
+PID:19478                                    TID:20631
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.36.29.492649                   Level:EVENT
+PID:19478                                    TID:20631
+Function:pmdInsertCommand                    Line:51
+File:pmd/pmdCommand.cpp
+Message: 
+Insert request received
+
+2014-02-13-17.36.29.492697                   Level:EVENT
+PID:19478                                    TID:20631
+Function:pmdInsertCommand                    Line:61
+File:pmd/pmdCommand.cpp
+Message: 
+Insert: insertor: { _id: "8" }
+
+2014-02-13-17.36.29.492731                   Level:ERROR
+PID:19478                                    TID:20631
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 16
+
+2014-02-13-17.36.29.494192                   Level:ERROR
+PID:19478                                    TID:20631
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 32
+
+2014-02-13-17.36.29.498273                   Level:ERROR
+PID:19478                                    TID:20631
+Function:recv                                Line:278
+File:oss/ossSocket.cpp
+Message: 
+Peer unexpected shutdown
+
+2014-02-13-17.36.29.498309                   Level:SEVERE
+PID:19478                                    TID:20631
+Function:pmdAgentEntryPoint                  Line:230
+File:pmd/pmdAgent.cpp
+Message: 
+Network error occured
+
+2014-02-13-17.36.29.498378                   Level:WARNING
+PID:19478                                    TID:20631
+Function:pmdEDUEntryPoint                    Line:155
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 5, type Unknown exits with -11
+
+2014-02-13-17.38.43.437101                   Level:ERROR
+PID:19478                                    TID:20674
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 32
+
+2014-02-13-17.39.19.981044                   Level:ERROR
+PID:19478                                    TID:20674
+Function:findIndex                           Line:183
+File:ixm/ixmBucket.cpp
+Message: 
+element not found
+
+2014-02-13-17.39.19.981193                   Level:ERROR
+PID:19478                                    TID:20674
+Function:rtnFind                             Line:80
+File:rtn/rtn.cpp
+Message: 
+Failed to call ixm findindex, rc = -2
+
+2014-02-13-17.39.19.981263                   Level:ERROR
+PID:19478                                    TID:20674
+Function:pmdProcessAgentRequest              Line:78
+File:pmd/pmdAgent.cpp
+Message: 
+Invalid argument is received
+
+2014-02-13-17.39.19.981329                   Level:ERROR
+PID:19478                                    TID:20674
+Function:pmdAgentEntryPoint                  Line:190
+File:pmd/pmdAgent.cpp
+Message: 
+begin send 21
+
+2014-02-13-17.46.32.581372                   Level:ERROR
+PID:19478                                    TID:20674
+Function:recv                                Line:278
+File:oss/ossSocket.cpp
+Message: 
+Peer unexpected shutdown
+
+2014-02-13-17.46.32.581540                   Level:SEVERE
+PID:19478                                    TID:20674
+Function:pmdAgentEntryPoint                  Line:230
+File:pmd/pmdAgent.cpp
+Message: 
+Network error occured
+
+2014-02-13-17.46.32.581711                   Level:WARNING
+PID:19478                                    TID:20674
+Function:pmdEDUEntryPoint                    Line:155
+File:pmd/pmdEDU.cpp
+Message: 
+EDU 6, type Unknown exits with -11
+

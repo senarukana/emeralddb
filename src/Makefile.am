@@ -3,7 +3,8 @@ bin_PROGRAMS=emeralddb edb
 emeralddb_SOURCES=\
 	pmd/pmdMain.cpp pmd/pmdTcpListener.cpp pmd/pmdAgent.cpp pmd/pmd.cpp \
     pmd/pmdOptions.cpp pmd/pmdCommand.cpp \
-    pmd/pmdEDUMgr.cpp pmd/pmdEDU.cpp rtn/rtn.cpp \
+    pmd/pmdEDUMgr.cpp pmd/pmdEDU.cpp \ 
+    rtn/rtn.cpp ixm/ixmBucket.cpp \
 	bson/src/bsonobj.cpp bson/src/util/json.cpp bson/src/oid.cpp \
 	bson/src/lib/base64.cpp bson/src/lib/md5.cpp bson/src/lib/nonce.cpp \
     oss/ossSocket.cpp oss/ossFileOp.cpp oss/ossMmapFile.cpp dms/dms.cpp\

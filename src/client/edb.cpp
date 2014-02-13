@@ -28,12 +28,29 @@ const char  NEW_LINE    = '\n';
 const char *PROMPT      = "emeralddb >";
 
 int gQuit = 0;
+bool autoConnect = true;
+const char *HOSTNAME = "localhost";
+const char *port = "48127";
 
 void Edb::start() {
    std::cout<<"Welcome to EmeraldDB Shell!"<<std::endl;
    std::cout<<"edb help for help. Ctrl+c or quit to exit"<<std::endl;
    while (gQuit == 0) {
       prompt();
+   }
+}
+
+int connect() {
+   int rc = EDB_OK;
+   std::vector<std::string> optionVec;
+   ICommand *pCmd = NULL;
+   pCmd = _cmdFactory.getCommandProcessor("connect");
+   optionVec.push_back(string(HOSTNAME));
+   optionVec.push_back(string(port));
+   rc = pCmd->execute(_socket,optionVec);
+   if (rc) {
+      std::cout<<"Failed to connect to server:"<<HOSTNAME<<", port: "<<port<<std::endl;
+      exit(0);
    }
 }
 
@@ -113,6 +130,9 @@ int Edb::_readInput() {
 
 int main(int argc, char **argv) {
    Edb edb;
+   if (autoConnect) {
+      connect();
+   }
    edb.start();
    return 0;
 }

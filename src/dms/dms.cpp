@@ -6,10 +6,11 @@ using namespace bson;
 
 const char *gKeyFieldName = DMS_KEY_FILENAME;
 
-dmsFile::dmsFile():
+dmsFile::dmsFile(ixmBucketManager *ixmBucketMgr):
     _header(NULL),
     _pFileName(NULL)
 {
+    _ixmBucketMgr = ixmBucketMgr;
 }
 
 dmsFile::~dmsFile() {
@@ -41,6 +42,7 @@ retry:
     _mutex.get();
     // 1. find a page to insert the data
     pageID = _findPage(recordSize);
+    PD_LOG(PDTRACE, "insert pageID is %u", pageID);
     if (pageID == DMS_INVALID_PAGEID) {
         _mutex.release();
 
@@ -63,6 +65,7 @@ retry:
     
     // 2. get the data of the page
     page = pageToOffset(pageID);
+    PD_LOG(PDTRACE, "page offset is %u", page);
     // if something wrong, let's return error
     if (!page) {
         rc = EDB_SYS;
@@ -72,6 +75,7 @@ retry:
 
     // set the pageHeader
     pageHeader = (dmsPageHeader*)page;
+    PD_LOG(PDTRACE, "page offset is %u", pageHeader->_numSlots);
     // sanity check for pageHeader
     if (memcmp(pageHeader->_magic, DMS_PAGE_MAGIC, DMS_PAGE_MAGIC_LEN) != 0) {
         rc = EDB_SYS;
@@ -181,7 +185,7 @@ int dmsFile::find(dmsRecordID &rid, BSONObj &result) {
     page = pageToOffset(rid._pageID);
     if (!page) {
         rc = EDB_SYS;
-        PD_LOG(PDERROR, " Failed to find the page");
+        PD_LOG(PDERROR, " Failed to find the page %u", rid._pageID);
         goto done;
     }
     /*****************CRITICAL SECTION*****************/
@@ -436,7 +440,7 @@ int dmsFile::_loadData() {
 
     // check if _header is valid
     if (!_header) {
-        rc = map(0, DMS_PAGE_SIZE, (void **)&_header);
+        rc = map(0, DMS_FILE_HEADER_SIZE, (void **)&_header);
         PD_RC_CHECK(rc, PDERROR, "Failed to map file header, rc = %d", rc);
     }
     numPage = _header->_size;
@@ -446,6 +450,7 @@ int dmsFile::_loadData() {
         goto error;
     } 
     numSegments = numPage / DMS_PAGES_PER_SEGMENT;
+    PD_LOG(PDERROR, "num page is %d", numPage);
     // get the segments number
     if (numSegments > 0) {
         for (int i = 0; i < numSegments; i++) {
@@ -461,16 +466,22 @@ int dmsFile::_loadData() {
                 _freeSpaceMap.insert(std::pair<unsigned int, PAGEID>(
                     pageHeader->_freeSpace, j + (DMS_PAGES_PER_SEGMENT) * i));
                 slotID = (SLOTID) pageHeader->_numSlots;
-                recordID._pageID = (PAGEID)j;
+                recordID._pageID = (PAGEID)(j + i * DMS_PAGES_PER_SEGMENT);
                 // for each record in the page, let's insert into index
-                // for (unsigned int k = 0; k < slotID; k++) {
-                //     slotOffset = *(SLOTOFF*)(data + j*DMS_PAGE_SIZE +
-                //                 sizeof(dmsPageHeader) + k*sizeof(SLOTID));
-                //     if (slotOffset == DMS_SLOT_EMPTY) {
-                //         continue; // has been removed
-                //     }
-                //     // put it into index
-                // } 
+                for (unsigned int k = 0; k < slotID; k++) {
+                    slotOffset = *(SLOTOFF*)(data + j*DMS_PAGE_SIZE +
+                                sizeof(dmsPageHeader) + k*sizeof(SLOTID));
+                    if (slotOffset == DMS_SLOT_EMPTY) {
+                        continue; // has been removed
+                    }
+                    // put it into index
+                    bson = BSONObj(data + j*DMS_PAGE_SIZE + slotOffset + sizeof(dmsRecord));
+                    recordID._slotID = (SLOTID)k;
+                    rc = _ixmBucketMgr->isIDExist(bson);
+                    PD_RC_CHECK(rc, PDERROR, "Failed to call isIDExist, rc = %d", rc);
+                    rc = _ixmBucketMgr->createIndex(bson, recordID);
+                    PD_RC_CHECK(rc, PDERROR, "Failed to call ixm createIndex, rc = %d", rc);
+                } 
             }
         }
     }

@@ -67,13 +67,13 @@ am_emeralddb_OBJECTS = emeralddb-pmdMain.$(OBJEXT) \
 	emeralddb-pmdAgent.$(OBJEXT) emeralddb-pmd.$(OBJEXT) \
 	emeralddb-pmdOptions.$(OBJEXT) emeralddb-pmdCommand.$(OBJEXT) \
 	emeralddb-pmdEDUMgr.$(OBJEXT) emeralddb-pmdEDU.$(OBJEXT) \
-	emeralddb-rtn.$(OBJEXT) emeralddb-bsonobj.$(OBJEXT) \
-	emeralddb-json.$(OBJEXT) emeralddb-oid.$(OBJEXT) \
-	emeralddb-base64.$(OBJEXT) emeralddb-md5.$(OBJEXT) \
-	emeralddb-nonce.$(OBJEXT) emeralddb-ossSocket.$(OBJEXT) \
-	emeralddb-ossFileOp.$(OBJEXT) emeralddb-ossMmapFile.$(OBJEXT) \
-	emeralddb-dms.$(OBJEXT) emeralddb-pd.$(OBJEXT) \
-	emeralddb-msg.$(OBJEXT)
+	emeralddb-rtn.$(OBJEXT) emeralddb-ixmBucket.$(OBJEXT) \
+	emeralddb-bsonobj.$(OBJEXT) emeralddb-json.$(OBJEXT) \
+	emeralddb-oid.$(OBJEXT) emeralddb-base64.$(OBJEXT) \
+	emeralddb-md5.$(OBJEXT) emeralddb-nonce.$(OBJEXT) \
+	emeralddb-ossSocket.$(OBJEXT) emeralddb-ossFileOp.$(OBJEXT) \
+	emeralddb-ossMmapFile.$(OBJEXT) emeralddb-dms.$(OBJEXT) \
+	emeralddb-pd.$(OBJEXT) emeralddb-msg.$(OBJEXT)
 emeralddb_OBJECTS = $(am_emeralddb_OBJECTS)
 emeralddb_DEPENDENCIES =
 emeralddb_LINK = $(CXXLD) $(emeralddb_CXXFLAGS) $(CXXFLAGS) \
@@ -208,7 +208,8 @@ AUTOMAKE_OPTIONS = foreign
 emeralddb_SOURCES = \
 	pmd/pmdMain.cpp pmd/pmdTcpListener.cpp pmd/pmdAgent.cpp pmd/pmd.cpp \
     pmd/pmdOptions.cpp pmd/pmdCommand.cpp \
-    pmd/pmdEDUMgr.cpp pmd/pmdEDU.cpp rtn/rtn.cpp \
+    pmd/pmdEDUMgr.cpp pmd/pmdEDU.cpp \
+    rtn/rtn.cpp ixm/ixmBucket.cpp \
 	bson/src/bsonobj.cpp bson/src/util/json.cpp bson/src/oid.cpp \
 	bson/src/lib/base64.cpp bson/src/lib/md5.cpp bson/src/lib/nonce.cpp \
     oss/ossSocket.cpp oss/ossFileOp.cpp oss/ossMmapFile.cpp dms/dms.cpp\
@@ -348,6 +349,7 @@ include ./$(DEPDIR)/edb-pd.Po
 include ./$(DEPDIR)/emeralddb-base64.Po
 include ./$(DEPDIR)/emeralddb-bsonobj.Po
 include ./$(DEPDIR)/emeralddb-dms.Po
+include ./$(DEPDIR)/emeralddb-ixmBucket.Po
 include ./$(DEPDIR)/emeralddb-json.Po
 include ./$(DEPDIR)/emeralddb-md5.Po
 include ./$(DEPDIR)/emeralddb-msg.Po
@@ -702,6 +704,20 @@ emeralddb-rtn.obj: rtn/rtn.cpp
 #	source='rtn/rtn.cpp' object='emeralddb-rtn.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-rtn.obj `if test -f 'rtn/rtn.cpp'; then $(CYGPATH_W) 'rtn/rtn.cpp'; else $(CYGPATH_W) '$(srcdir)/rtn/rtn.cpp'; fi`
+
+emeralddb-ixmBucket.o: ixm/ixmBucket.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-ixmBucket.o -MD -MP -MF $(DEPDIR)/emeralddb-ixmBucket.Tpo -c -o emeralddb-ixmBucket.o `test -f 'ixm/ixmBucket.cpp' || echo '$(srcdir)/'`ixm/ixmBucket.cpp
+	$(am__mv) $(DEPDIR)/emeralddb-ixmBucket.Tpo $(DEPDIR)/emeralddb-ixmBucket.Po
+#	source='ixm/ixmBucket.cpp' object='emeralddb-ixmBucket.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-ixmBucket.o `test -f 'ixm/ixmBucket.cpp' || echo '$(srcdir)/'`ixm/ixmBucket.cpp
+
+emeralddb-ixmBucket.obj: ixm/ixmBucket.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-ixmBucket.obj -MD -MP -MF $(DEPDIR)/emeralddb-ixmBucket.Tpo -c -o emeralddb-ixmBucket.obj `if test -f 'ixm/ixmBucket.cpp'; then $(CYGPATH_W) 'ixm/ixmBucket.cpp'; else $(CYGPATH_W) '$(srcdir)/ixm/ixmBucket.cpp'; fi`
+	$(am__mv) $(DEPDIR)/emeralddb-ixmBucket.Tpo $(DEPDIR)/emeralddb-ixmBucket.Po
+#	source='ixm/ixmBucket.cpp' object='emeralddb-ixmBucket.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -c -o emeralddb-ixmBucket.obj `if test -f 'ixm/ixmBucket.cpp'; then $(CYGPATH_W) 'ixm/ixmBucket.cpp'; else $(CYGPATH_W) '$(srcdir)/ixm/ixmBucket.cpp'; fi`
 
 emeralddb-bsonobj.o: bson/src/bsonobj.cpp
 	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(emeralddb_CXXFLAGS) $(CXXFLAGS) -MT emeralddb-bsonobj.o -MD -MP -MF $(DEPDIR)/emeralddb-bsonobj.Tpo -c -o emeralddb-bsonobj.o `test -f 'bson/src/bsonobj.cpp' || echo '$(srcdir)/'`bson/src/bsonobj.cpp

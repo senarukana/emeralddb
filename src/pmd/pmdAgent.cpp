@@ -100,7 +100,7 @@ int pmdAgentEntryPoint(pmdEDUCB *cb, void *arg) {
     pmdEDUMgr *mgr = cb->getEDUMgr();
     bool disconnect = false;
     int recvBufferSize = PMD_AGENT_RECV_BUFFER_SZ;
-    int resultBufferSize = PMD_AGENT_RECV_BUFFER_SZ;
+    int resultBufferSize = sizeof(MsgReply);
 
     // receive socket from argument
     socketfd = *((int*)&arg);
@@ -163,6 +163,16 @@ int pmdAgentEntryPoint(pmdEDUCB *cb, void *arg) {
         // now it's time to handle request, set the edu to running status
         if ((rc = mgr->activateEDU(id)) != EDB_OK) {
             goto error;
+        }
+        // reorganize the reuslt buffer
+        if (resultBufferSize > (int)sizeof(MsgReply)) {
+            resultBufferSize = (int)sizeof(MsgReply);
+            free(pResultBuffer);
+            pResultBuffer = (char *)malloc(sizeof(char) * resultBufferSize);
+            if (pResultBuffer == NULL) {
+                rc = EDB_OOM;
+                goto error;
+            }
         }
 
         rc = pmdProcessAgentRequest(pRecvBuffer,

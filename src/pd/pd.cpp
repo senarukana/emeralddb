@@ -42,7 +42,7 @@ const static char *PD_LOG_HEADER_FORMAT="%04d-%02d-%02d-%02d.%02d.%02d.%06d\
 
 
 PDLEVEL _curPDLevel = PDTRACE ;
-PDLEVEL _curPDFileLevel = PDEVENT;
+PDLEVEL _curPDFileLevel = PDTRACE;
 
 
 char _pdDiagLogPath[OSS_MAX_PATHSIZE+1] = {0} ;
