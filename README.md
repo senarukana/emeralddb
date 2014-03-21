@@ -24,15 +24,19 @@ Before executing operations, you need connect the server first. The default port
 It will return +OK to if your connection has been built sucessful.
 
 ### Database
-The first time, you use it you need to create a database.
+The first time you use it, you need to create a database.
 
 	edb>> create test
 
 Then you can type show databases to see how many databases you have.
 	
 	edb>> show databases
+	# return
+	edb>> ["test"]
 	# delete database test
-	edb>> drop test 
+	edb>> drop test
+	# return
+	edb>> +OK
 
 The database will be set to null by default. You need to specify it before executing any operations.
 	
