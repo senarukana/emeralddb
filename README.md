@@ -150,19 +150,15 @@ The internal storage structure is a little bit like mysql, but it's much more ea
 It firstly reads this header before openning the database. It contains the basic information of database. Magic is to verify the header. Flag indicate if the database is closed rightly the last time. Scheme Num is the scheme currently the database have. And the remaining is the name of each scheme. We use scheme name to locate the scheme file.
    
 	/********************************
-		DATABASE STRUCTURE
+		  SCHEME STRUCTURE
 	=============================
 	|           Magic           |
 	=============================
-	|     		Size            |
+	|     	 Page Num            |
 	=============================
-	|        	Flag            |
+	|        Record Num         |
 	=============================
-	|        	Version         |
-	=============================
-	|         SCHEME LIST        |
-	=============================
-	.............................
+	|		 INDEX LIST 	     |
 	*********************************/
 
 #### SCHEME STRUCTURE #######
@@ -185,15 +181,14 @@ Index structure stores the information of index. Currently it only supports BTRE
 
 	*********************
 		INDEX STRUCTRE
-	=========================
-	|	Type 		|
-	=========================
-	| 	  Field Num	|
-	=========================
-	|	  Field Name 1  | (64char)
-	=========================
-	|	  Field Name 2  |
-	.........................
+	=====================
+	|		Type 		 |
+	=====================
+	| 	  Field Num	     |
+	=====================
+	|	  Field Name 1   | (64char)
+	=====================
+	|	  Field Name 2   |
 
 #### PAGE STRUCTURE ##########
 The data is managed by page using mmap. Page has a fixed size of 4096. Every time the database read the data, it should allocate the whole page to the memory. The data in the page is stored reversely from end to begin. In this way, we can easily check if the page is full. Slot is the index of record in this page. 
