@@ -173,11 +173,11 @@ It contains the basic information of scheme. It has a fixed size of 4096.
 	=============================
 	|           Magic           |
 	=============================
-	|     	 Page Num            |
+	|     	 Page Num           |
 	=============================
 	|        Record Num         |
 	=============================
-	|		 INDEX LIST 	     |
+	|	INDEX LIST 	    |
 	.............................
 	*********************************/
 
@@ -185,15 +185,15 @@ Index structure stores the information of index. Currently it only supports BTRE
 
 	*********************
 		INDEX STRUCTRE
-	=====================
-	|		Type 		 |
-	=====================
-	| 	  Field Num		 |
-	=====================
+	=========================
+	|	Type 		|
+	=========================
+	| 	  Field Num	|
+	=========================
 	|	  Field Name 1  | (64char)
-	=====================
+	=========================
 	|	  Field Name 2  |
-	.....................
+	.........................
 
 #### PAGE STRUCTURE ##########
 The data is managed by page using mmap. Page has a fixed size of 4096. Every time the database read the data, it should allocate the whole page to the memory. The data in the page is stored reversely from end to begin. In this way, we can easily check if the page is full. Slot is the index of record in this page. 
@@ -228,17 +228,6 @@ Using both PAGEID and SLOTID to locate the exact record.
 If you have problems, fell free to contact me at any time. My email is: lizhe.ted@gmail.com
 
 If you have interest in developing this project, just fork it, and do what you want.
-
-	// page structure
-	/********************************
-	PAGE STRUCTURE
-	=============================
-	|       PAGE HEADER         |
-	=============================
-	|       Slot List           |
-	=============================
-	|       Free Space          |
-	=============================
 	|       Data                |
 	==============================
 	*********************************/
