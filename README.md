@@ -1,5 +1,5 @@
 # Emeralddb
-Emeralddb is a json document nosql database like mongodb. It's based on BSON and boost. Currently it only supports k/v operations. The internal data is managed by mmap. It supports Hash-based and BTree-base index on _id. 
+Emeralddb is a json document nosql database like mongodb. It's based on BSON and boost. Currently it only supports basic document k/v operations. The internal data is managed by mmap. It supports secondry LinearHash-based and BTree-base index on primary key _id. 
 
 ## Limitations
 1. It doesn't support intuitive query language. It makes it really hard to use.
@@ -12,7 +12,7 @@ Emeralddb is a json document nosql database like mongodb. It's based on BSON and
 If it has some problems, may be your versions of boost are incompatible with the version of bson. My boost version is 1.54.
 
 ## Operation API
-After making it, it will have a client program named edb and server program named emberalddb. Use it for test. You need firstly to run the emeralddb. 
+After making it, it will have a client program named edb and server program named emberalddb. Use it for test. Before running edb,  you need firstly to run the emeralddb. 
 You can type help for command usages
 	
 	./edb
@@ -23,18 +23,18 @@ Before executing operations, you need connect the server first. The default port
 	edb>> connect localhost:48127
 It will return +OK to if your connection has been built sucessful.
 
-### Database
-The first time, you use it you need to create a database.
+### Scheme
+The first time, you use it you need to create a scheme.
 
 	edb>> create test
 
-Then you can type show databases to see how many databases you have.
+Then you can type show schemes to see how many databases you have.
 	
-	edb>> show databases
-	# delete database test
+	edb>> show schemes
+	# delete scheme test
 	edb>> drop test 
 
-The database will be set to null by default. You need to specify it before executing any operations.
+The scheme will be set to null by default. You need to specify it before executing any operations.
 	
 	edb>> use test 
 
