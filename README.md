@@ -223,6 +223,3 @@ Using both PAGEID and SLOTID to locate the exact record.
 If you have problems, fell free to contact me at any time. My email is: lizhe.ted@gmail.com
 
 If you have interest in developing this project, just fork it, and do what you want.
-	|       Data                |
-	==============================
-	*********************************/
